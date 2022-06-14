@@ -8,6 +8,8 @@
 \usepackage[dvipdfmx]{graphicx}
 % ブラケット記法
 \usepackage{braket}
+% ：＝を実現させるため
+\usepackage{mathtools}
 
 
 \begin{document}
@@ -17,5 +19,70 @@
 \date{\today}
 \maketitle
 
+\section{定義}
+$2^n$成分の配列$\{x_j\}$に対して、その離散フーリエ変換である配列$\{y_k\}$を
+\begin{equation}
+  y_k \equiv  \frac{1}{\sqrt{2^n}}\sum ^{2^n -1} _{j = 0} x_j e^{i\frac{2\pi k j}{2^n}} \label{eq:hoge}
+\end{equation}
+で定義する。$(j = 0, \cdots , 2^n -1)$,$( k = 0, \cdots , 2^n -1 )$
+
+また、量子フーリエ変換アルゴリズムは、入力の量子状態に、
+\begin{equation*}
+  \ket{x} \coloneqq \sum_{k = 0} ^{2^n -1} x_j \ket{j}
+\end{equation*}
+を
+\begin{equation}
+  \ket{y} \coloneqq \sum _{k = 0} ^{2^n -1} y_k \ket{k} \label{eq:fuga}
+\end{equation}
+となるように変換する量子アルゴリズムである。
+% ここで、$\ket{i}$は、整数の2進数の表示$i_$
+ここで、(\ref{eq:hoge})を(\ref{eq:fuga})に代入する。
+
+\begin{eqnarray*}
+  \ket{y} &=& \frac{1}{\sqrt{2^n}} \sum_{k = 0} ^{2^n - 1} \sum_{j = 0} ^{2^n -1} x_j e^{i \frac{2 \pi k j}{2^n}} \ket{k} \\
+  &=& \sum_{j = 0}^{2^n -1} x_j \left( \frac{1}{\sqrt{2^n}} \sum_{k = 0}^{2^n - 1} e^{i \frac{2\pi k j}{2^n}} \ket{k} \right)
+\end{eqnarray*}
+となる。
+
+よって、量子フーリエ変換は、
+\begin{equation*}
+  \ket{j} \rightarrow \frac{1}{\sqrt{2^n}} \sum _{k = 0} ^{2^n - 1} e^{i \frac{2\pi k j}{2^n}} \ket{k}
+\end{equation*}
+を行う量子回路を見つければよいことになる。
+
+また、この式はさらに変形でき、$k = k_1 \cdot 2^{n-1} + \cdots + k_n \cdot 2^0$、$(k)_{10} = (k_1 k_2 \cdots k_n)_2$より、
+\begin{eqnarray*} 
+  \sum _{k = 0} ^{2^n - 1} e^{i \frac{2\pi k j}{2^n}} \ket{k} &=& \sum _{k_1 = 0} ^{1} \sum _{k_2 = 0} ^{1} \cdots \sum _{k_n = 0} ^{1} e^{i \frac{2\pi j(k_1 2^{n-1} + \cdots + k_n 2^0)}{2^n}} \ket{k_1 \cdots k_n} \\
+  &=& \sum _{k_1 = 0} ^{1} \sum _{k_2 = 0} ^{1} \cdots \sum _{k_n = 0} ^{1} e^{i 2\pi j(k_1 2^{-1} + \cdots + k_n 2^{-n})} \ket{k_1 \cdots k_n} \\
+  \text{
+    因数分解して、全体をテンソル積で書き直すと、
+    } \\
+  &=& \left( \sum _{k_1 = 0} ^1 e^{2\pi j k_1 2^{-1}} \ket{k_1} \right) \otimes \cdots \otimes \left( \sum _{k_n = 0} ^1 e^{2\pi j k_n 2^{-n}} \ket{k_n} \right) \\
+  % \text{
+  %   10進数$j$は、2進数で、$j = j_1 \cdot 2^{n-1} + j_2 \cdot 2^{n-2} + \cdots + j_{n-1} \cdot 2 + j_n \cdot 2^0$なので、
+  % } \\
+  % \text{
+  %   2進小数は、$0.j_1j_2\cdot j_{n-1}j_n = j_1 \cdot 2^{-1}$
+  % }
+\end{eqnarray*}
+10進数$j$は、2進数で、
+$$
+j = j_1 \cdot 2^{n-1} + j_2 \cdot 2^{n-2} + \cdots + j_{n-1} \cdot 2 + j_n \cdot 2^0
+$$
+なので、2進小数は、
+$$
+0.j_1j_2\cdots j_{n-1}j_n = j_1 \cdot 2^{-1} + j_2 \cdot 2^{-2} + \cdots + j_{n-1} \cdot 2^{-n+1} + j_n \cdot 2^{-n}
+$$
+となるから、これを用いて、括弧内を計算すると、
+\begin{eqnarray*}
+  \sum _{k = 0} ^{2^n - 1} e^{i \frac{2\pi k j}{2^n}} \ket{k} = \left( \ket{0} + e^{2\pi 0.j_n} \ket{1} \right) \otimes \left( \ket{0} + e^{2\pi 0.j_{n-1} j_n} \ket{1} \right) \otimes \cdots \otimes \left( \ket{0} + e^{2\pi 0.j_1j_2 \cdots j_n} \ket{1} \right)
+\end{eqnarray*}
+となる。
+
+まとめると、量子フーリエ変換は、
+\begin{eqnarray*}
+  \ket{j} = \ket{j_1 \cdots j_n} \to \frac{\left( \ket{0} + e^{2\pi 0.j_n} \ket{1} \right) \otimes \cdots \otimes \left( \ket{0} + e^{2\pi 0.j_1j_2 \cdots j_n} \ket{1} \right)}{\sqrt{2^n}}
+\end{eqnarray*}
+という変換ができればよい。
 
 \end{document}
