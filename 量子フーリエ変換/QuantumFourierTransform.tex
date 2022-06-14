@@ -10,8 +10,10 @@
 \usepackage{braket}
 % :=を実現させるため
 \usepackage{mathtools}
-
+% 量子回路の作成
 \usepackage{qcircuit}
+
+\usepackage{url}
 
 
 \begin{document}
@@ -149,6 +151,26 @@ SWAPゲートを除いた、量子回路図で書くと、図\refeq{fig: quantum
   \includegraphics[width=15cm]{img/quantumCircuit.png}
   \caption{SWAPゲートを除いた量子フーリエ変換の量子回路}
   \label{fig: quantumCircuit}
-\end{figure}  
+\end{figure} 
 
+\section{計算量について}
+量子フーリエ変換の計算量と、古典アルゴリズムである「離散フーリエ変換(DFT)」と「高速フーリエ変換(FFT)」の計算量を比較してみる。
+
+まず、DFTの計算量について。DFTは次の式で定義される。
+\begin{eqnarray*}
+  y_k = \frac{1}{\sqrt{N}}\sum_{j=0} ^{N-1} x_j e^{-i \frac{2\pi j k}{N}}
+\end{eqnarray*}
+ここで、$k = 0, 1, \cdots , N - 1$である。これをコンピュータ上に実装することを考えると、$(x_0, x_1, \cdots)$を列ベクトルとみなせば、離散フーリエ変換は、$N \times N$行列の演算になっているので、DFTの計算量は$\mathcal{O}(N^2)$である。
+
+次に、FFTの計算量について。代表的なFFTに、Cooley-Tukey型FFTというのがある。これは、分割統治法を使ったアルゴリズムで、このアルゴリズムを使うことにより、計算量を$\mathcal{O}(N \log N)$まで減らすことができる。
+
+最後に、量子フーリエ変換の計算量について。量子フーリエ変換を行うために必要なゲートの操作の回数は、1番目の量子ビットに$n$回、2番目の量子ビットに$n-1$回$\dots$に、$n-1$回最後の量子ビットに$1$回で、合計$n(n-1)/2$回行う。そして、最後のSWAP操作が約$n/2$回なので、全て合わせると、$\mathcal{O}(n^2)$回である。$n$量子ビットには$2^n$個のサンプルを埋め込めるので、量子フーリエ変換は$N = 2^n$個のサンプルに対して、$\mathcal{O}((\log N)^2)$となる。
+
+以上より、量子フーリエ変換と、古典アルゴリズムのDFT、FFTの計算量を比較すると、量子フーリエ変換の方が計算量が小さく、高速であることが言える。
+しかし、フーリエ変換した結果${y_k}$は量子フーリエ変換後の状態$\ket{y}$の確率振幅として埋め込まれているが、この振幅を読み出そうとすると、指数関数的な回数の観測を行わなければならない。
+つまり、素直に行うと指数関数的な時間がかかってしますため、実用するのは容易ではなく、さまざまな工夫や技術的発展が必要になり、量子フーリエ変換を他のアルゴリズムの一部として用いる方が実用的である。
+
+% \begin{thebibliography}
+%   \bibitem{Dojo}Quantum Dojo
+% \end{thebibliography}
 \end{document}

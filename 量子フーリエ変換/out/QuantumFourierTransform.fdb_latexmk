@@ -1,10 +1,10 @@
 # Fdb version 3
-["dvipdf"] 1655212836 "out/QuantumFourierTransform.dvi" "out/QuantumFourierTransform.pdf" "out/QuantumFourierTransform" 1655212837
-  "out/QuantumFourierTransform.dvi" 1655212836 13160 3dbc42da0da753ca3efe549a8c73c711 "latex"
+["dvipdf"] 1655242621 "out/QuantumFourierTransform.dvi" "out/QuantumFourierTransform.pdf" "out/QuantumFourierTransform" 1655242622
+  "out/QuantumFourierTransform.dvi" 1655242621 16680 63e8761e2339ddfd8b5a8c85c68bbd3a "latex"
   (generated)
   "out/QuantumFourierTransform.pdf"
-["latex"] 1655212835 "/Users/kaito/研究ノート/量子フーリエ変換/QuantumFourierTransform.tex" "out/QuantumFourierTransform.dvi" "QuantumFourierTransform" 1655212837
-  "/Users/kaito/研究ノート/量子フーリエ変換/QuantumFourierTransform.tex" 1655212835 7358 fc2973dcd4da0cb8cc71e7d910dd5e81 ""
+["latex"] 1655242620 "/Users/kaito/研究ノート/量子フーリエ変換/QuantumFourierTransform.tex" "out/QuantumFourierTransform.dvi" "QuantumFourierTransform" 1655242622
+  "/Users/kaito/研究ノート/量子フーリエ変換/QuantumFourierTransform.tex" 1655242618 9850 21836ece96d8761b4e3cb924c56e805b ""
   "/usr/local/texlive/2022/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/jis/jis.tfm" 1463434352 468 53f854284f6afa6c36aaa2d1090ecc12 ""
   "/usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/jis/jisg.tfm" 1463434352 468 53f854284f6afa6c36aaa2d1090ecc12 ""
@@ -95,14 +95,15 @@
   "/usr/local/texlive/2022/texmf-dist/tex/latex/qcircuit/qcircuit.sty" 1534284019 13128 2f5b62647cce836fb6ec0f94fe497fdc ""
   "/usr/local/texlive/2022/texmf-dist/tex/latex/tools/bm.sty" 1622581934 13197 df0fe9a9695763546b59e02a008447b3 ""
   "/usr/local/texlive/2022/texmf-dist/tex/latex/tools/calc.sty" 1622581934 10214 00ce62e730d0cfe22b35e8f1c84949c7 ""
+  "/usr/local/texlive/2022/texmf-dist/tex/latex/url/url.sty" 1388531844 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
   "/usr/local/texlive/2022/texmf-dist/tex/platex/jsclasses/jsarticle.cls" 1625175385 60810 5a58feea6fbea0a330b0ddfb4da256c4 ""
   "/usr/local/texlive/2022/texmf-dist/tex/platex/jsclasses/jslogo.sty" 1601931076 5585 8e4615c54073c390d14154b29cee89cb ""
   "/usr/local/texlive/2022/texmf-dist/web2c/texmf.cnf" 1646502317 40171 cdab547de63d26590bebb3baff566530 ""
   "/usr/local/texlive/2022/texmf-var/web2c/eptex/platex.fmt" 1654784936 2831235 f0dbab1032229dbfc2d1838d795fb97c ""
   "/usr/local/texlive/2022/texmf.cnf" 1647878952 577 209b46be99c9075fd74d4c0369380e8c ""
-  "QuantumFourierTransform.tex" 1655212835 7358 fc2973dcd4da0cb8cc71e7d910dd5e81 ""
+  "QuantumFourierTransform.tex" 1655242618 9850 21836ece96d8761b4e3cb924c56e805b ""
   "img/quantumCircuit.png" 1655203374 14002 1490d66fc9d832c6d46acf91b7639b59 ""
-  "out/QuantumFourierTransform.aux" 1655212836 517 a515f1d2f3eeb6dd3a70d3b8ee2b85ba "latex"
+  "out/QuantumFourierTransform.aux" 1655242621 626 c66fb0fd7466e57a55ca7f5bbfebf548 "latex"
   (generated)
   "out/QuantumFourierTransform.aux"
   "out/QuantumFourierTransform.dvi"
