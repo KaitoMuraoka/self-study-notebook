@@ -1,4 +1,4 @@
-This is e-pTeX, Version 3.141592653-p4.0.0-220214-2.6 (utf8.euc) (TeX Live 2022) (preloaded format=platex 2022.6.9)  14 JUN 2022 17:31
+This is e-pTeX, Version 3.141592653-p4.0.0-220214-2.6 (utf8.euc) (TeX Live 2022) (preloaded format=platex 2022.6.9)  14 JUN 2022 22:20
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -162,97 +162,192 @@ Package: mhsetup 2021/03/18 v1.4 programming setup (MH)
 \l_MT_below_shortintertext_sep=\dimen179
 \xmathstrut@box=\box70
 \xmathstrut@dim=\dimen180
-) (/usr/local/texlive/2022/texmf-dist/tex/latex/l3backend/l3backend-dvips.def
+) (/usr/local/texlive/2022/texmf-dist/tex/latex/qcircuit/qcircuit.sty
+Package: qcircuit 2018/08/14
+(/usr/local/texlive/2022/texmf-dist/tex/generic/xypic/xy.sty (/usr/local/texlive/2022/texmf-dist/tex/generic/xypic/xy.tex Bootstrap'ing: catcodes, docmode, (/usr/local/texlive/2022/texmf-dist/tex/generic/xypic/xyrecat.tex) (/usr/local/texlive/2022/texmf-dist/tex/generic/xypic/xyidioms.tex)
+
+ Xy-pic version 3.8.9 <2013/10/06>
+ Copyright (c) 1991-2013 by Kristoffer H. Rose <krisrose@tug.org> and others
+ Xy-pic is free software: see the User's Guide for details.
+
+Loading kernel: messages; fonts; allocations: state,
+\X@c=\dimen181
+\Y@c=\dimen182
+\U@c=\dimen183
+\D@c=\dimen184
+\L@c=\dimen185
+\R@c=\dimen186
+\Edge@c=\toks23
+\X@p=\dimen187
+\Y@p=\dimen188
+\U@p=\dimen189
+\D@p=\dimen190
+\L@p=\dimen191
+\R@p=\dimen192
+\Edge@p=\toks24
+\X@origin=\dimen193
+\Y@origin=\dimen194
+\X@xbase=\dimen195
+\Y@xbase=\dimen196
+\X@ybase=\dimen197
+\Y@ybase=\dimen198
+\X@min=\dimen199
+\Y@min=\dimen256
+\X@max=\dimen257
+\Y@max=\dimen258
+\lastobjectbox@=\box71
+\zerodotbox@=\box72
+\almostz@=\dimen259
+direction,
+\d@X=\dimen260
+\d@Y=\dimen261
+\K@=\count275
+\KK@=\count276
+\Direction=\count277
+\K@dXdY=\dimen262
+\K@dYdX=\dimen263
+\xyread@=\read2
+\xywrite@=\write3
+\csp@=\count278
+\quotPTK@=\dimen264
+utility macros; pictures: \xy, positions,
+\swaptoks@@=\toks25
+\connectobjectbox@@=\box73
+objects,
+\styletoks@=\toks26
+decorations; kernel objects: directionals, circles, text; options; algorithms: directions, edges, connections;  Xy-pic loaded) (/usr/local/texlive/2022/texmf-dist/tex/generic/iftex/ifpdf.sty
+Package: ifpdf 2019/10/25 v3.4 ifpdf legacy package. Use iftex instead.
+(/usr/local/texlive/2022/texmf-dist/tex/generic/iftex/iftex.sty
+Package: iftex 2022/02/03 v1.0f TeX engine tests
+))
+Package: xy 2013/10/06 Xy-pic version 3.8.9
+) (/usr/local/texlive/2022/texmf-dist/tex/generic/xypic/xymatrix.tex  Xy-pic option: Matrix feature v.3.14
+\Row=\count279
+\Col=\count280
+\queue@=\toks27
+\queue@@=\toks28
+\qcount@=\count281
+\qcount@@=\count282
+\matrixsize@=\count283
+loaded) (/usr/local/texlive/2022/texmf-dist/tex/generic/xypic/xyframe.tex  Xy-pic option: Frame and Bracket extension v.3.14 loaded) (/usr/local/texlive/2022/texmf-dist/tex/generic/xypic/xyarrow.tex  Xy-pic option: Arrow and Path feature v.3.9 path, \ar, loaded) (/usr/local/texlive/2022/texmf-dist/tex/generic/xypic/xyarc.tex  Xy-pic option: Circle, Ellipse, Arc feature v.3.8 (/usr/local/texlive/2022/texmf-dist/tex/generic/xypic/xycurve.tex  Xy-pic option: Curve and Spline extension v.3.12 curve,
+\crv@cnt@=\count284
+\crvpts@=\toks29
+\splinebox@=\box74
+\splineval@=\dimen265
+\splinedepth@=\dimen266
+\splinetol@=\dimen267
+\splinelength@=\dimen268
+circles,
+\L@=\dimen269
+loaded) circles, ellipses, elliptical arcs, loaded)
+
+Package Qcircuit Warning: qcircuit is not loading in PDF mode. Activating all Xy-pic features to compensate. If you wish to use specific drivers for Xy-pic, you must modify the code in qcircuit.sty.
+
+(/usr/local/texlive/2022/texmf-dist/tex/generic/xypic/xyall.tex  Xy-pic option: All features v.3.8 (/usr/local/texlive/2022/texmf-dist/tex/generic/xypic/xycmtip.tex  Xy-pic option: Computer Modern tip extension v.3.7 (/usr/local/texlive/2022/texmf-dist/tex/generic/xypic/xytips.tex  Xy-pic option: More Tips extension v.3.11 loaded) loaded) (/usr/local/texlive/2022/texmf-dist/tex/generic/xypic/xyline.tex  Xy-pic option: Line styles extension v.3.10
+\xylinethick@=\dimen270
+loaded) (/usr/local/texlive/2022/texmf-dist/tex/generic/xypic/xyrotate.tex  Xy-pic option: Rotate and Scale extension v.3.8 loaded) (/usr/local/texlive/2022/texmf-dist/tex/generic/xypic/xycolor.tex  Xy-pic option: Colour extension v.3.11 loaded) (/usr/local/texlive/2022/texmf-dist/tex/generic/xypic/xygraph.tex  Xy-pic option: Graph feature v.3.11 loaded) loaded)) (/usr/local/texlive/2022/texmf-dist/tex/latex/l3backend/l3backend-dvips.def
 File: l3backend-dvips.def 2022-04-20 L3 backend support: dvips
-\l__pdf_internal_box=\box71
-\g__pdf_backend_object_int=\count275
-\l__pdf_backend_content_box=\box72
-\l__pdf_backend_model_box=\box73
-\g__pdf_backend_annotation_int=\count276
-\g__pdf_backend_link_int=\count277
-\g__pdf_backend_link_sf_int=\count278
+\l__pdf_internal_box=\box75
+\g__pdf_backend_object_int=\count285
+\l__pdf_backend_content_box=\box76
+\l__pdf_backend_model_box=\box77
+\g__pdf_backend_annotation_int=\count286
+\g__pdf_backend_link_int=\count287
+\g__pdf_backend_link_sf_int=\count288
 ) (out/QuantumFourierTransform.aux)
 \openout1 = `QuantumFourierTransform.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 15.
-LaTeX Font Info:    ... okay on input line 15.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 15.
-LaTeX Font Info:    ... okay on input line 15.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 15.
-LaTeX Font Info:    ... okay on input line 15.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 15.
-LaTeX Font Info:    ... okay on input line 15.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 15.
-LaTeX Font Info:    ... okay on input line 15.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 15.
-LaTeX Font Info:    ... okay on input line 15.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 15.
-LaTeX Font Info:    ... okay on input line 15.
-LaTeX Font Info:    Checking defaults for JY1/mc/m/n on input line 15.
-LaTeX Font Info:    ... okay on input line 15.
-LaTeX Font Info:    Checking defaults for JT1/mc/m/n on input line 15.
-LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Checking defaults for JY1/mc/m/n on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Checking defaults for JT1/mc/m/n on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
 LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
-(Font)              scaled to size 16.60605pt on input line 20.
+(Font)              scaled to size 16.60605pt on input line 22.
 LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
-(Font)              scaled to size 16.60605pt on input line 20.
+(Font)              scaled to size 16.60605pt on input line 22.
 LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
-(Font)              scaled to size 11.53198pt on input line 20.
+(Font)              scaled to size 11.53198pt on input line 22.
 LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
-(Font)              scaled to size 11.53198pt on input line 20.
+(Font)              scaled to size 11.53198pt on input line 22.
 LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
-(Font)              scaled to size 5.76599pt on input line 20.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 20.
+(Font)              scaled to size 5.76599pt on input line 22.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 22.
 (/usr/local/texlive/2022/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 20.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 22.
 (/usr/local/texlive/2022/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
-(Font)              scaled to size 11.53198pt on input line 20.
+(Font)              scaled to size 11.53198pt on input line 22.
 LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
-(Font)              scaled to size 7.68799pt on input line 20.
+(Font)              scaled to size 7.68799pt on input line 22.
 LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
-(Font)              scaled to size 5.76599pt on input line 20.
+(Font)              scaled to size 5.76599pt on input line 22.
 LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
-(Font)              scaled to size 13.83836pt on input line 22.
+(Font)              scaled to size 13.83836pt on input line 24.
 LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
-(Font)              scaled to size 13.83836pt on input line 22.
+(Font)              scaled to size 13.83836pt on input line 24.
 LaTeX Font Info:    Font shape `JT1/gt/m/n' will be
-(Font)              scaled to size 13.83836pt on input line 22.
+(Font)              scaled to size 13.83836pt on input line 24.
 LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
-(Font)              scaled to size 13.83836pt on input line 22.
+(Font)              scaled to size 13.83836pt on input line 24.
 LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
-(Font)              scaled to size 6.72699pt on input line 23.
+(Font)              scaled to size 6.72699pt on input line 25.
 LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
-(Font)              scaled to size 4.805pt on input line 23.
+(Font)              scaled to size 4.805pt on input line 25.
 LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
-(Font)              scaled to size 9.60999pt on input line 23.
+(Font)              scaled to size 9.60999pt on input line 25.
 LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
-(Font)              scaled to size 6.72699pt on input line 23.
+(Font)              scaled to size 6.72699pt on input line 25.
 LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
-(Font)              scaled to size 4.805pt on input line 23.
+(Font)              scaled to size 4.805pt on input line 25.
 LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
-(Font)              scaled to size 6.72699pt on input line 59.
+(Font)              scaled to size 6.72699pt on input line 61.
 LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
-(Font)              scaled to size 4.805pt on input line 59.
+(Font)              scaled to size 4.805pt on input line 61.
 
-Overfull \hbox (36.4455pt too wide) in alignment at lines 54--67
+Overfull \hbox (36.4455pt too wide) in alignment at lines 56--69
  [][][] []
  []
 
 [1
 
-] [2] (out/QuantumFourierTransform.aux) ) 
-Here is how much of TeX's memory you used:
- 2725 strings out of 478752
- 43999 string characters out of 5857045
- 359812 words of memory out of 5000000
- 21109 multiletter control sequences out of 15000+600000
- 488796 words of font info for 115 fonts, out of 8000000 for 9000
- 934 hyphenation exceptions out of 8191
- 55i,9n,62p,331b,265s stack positions out of 10000i,1000n,20000p,200000b,200000s
+] [2]
+File: img/quantumCircuit.png Graphic file (type bmp)
+<img/quantumCircuit.png>
 
-Output written on out/QuantumFourierTransform.dvi (2 pages, 6764 bytes).
+Overfull \hbox (19.92897pt too wide) in paragraph at lines 149--150
+ [][] 
+ []
+
+LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
+(Font)              scaled to size 8.64899pt on input line 150.
+LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
+(Font)              scaled to size 8.64899pt on input line 150.
+[3] [4] (out/QuantumFourierTransform.aux) ) 
+Here is how much of TeX's memory you used:
+ 5230 strings out of 478752
+ 75694 string characters out of 5857045
+ 433018 words of memory out of 5000000
+ 23541 multiletter control sequences out of 15000+600000
+ 490825 words of font info for 127 fonts, out of 8000000 for 9000
+ 934 hyphenation exceptions out of 8191
+ 70i,13n,76p,366b,332s stack positions out of 10000i,1000n,20000p,200000b,200000s
+
+Output written on out/QuantumFourierTransform.dvi (4 pages, 13160 bytes).

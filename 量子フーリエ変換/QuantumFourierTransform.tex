@@ -8,8 +8,10 @@
 \usepackage[dvipdfmx]{graphicx}
 % ブラケット記法
 \usepackage{braket}
-% ：＝を実現させるため
+% :=を実現させるため
 \usepackage{mathtools}
+
+\usepackage{qcircuit}
 
 
 \begin{document}
@@ -80,9 +82,73 @@ $$
 となる。
 
 まとめると、量子フーリエ変換は、
-\begin{eqnarray*}
-  \ket{j} = \ket{j_1 \cdots j_n} \to \frac{\left( \ket{0} + e^{2\pi 0.j_n} \ket{1} \right) \otimes \cdots \otimes \left( \ket{0} + e^{2\pi 0.j_1j_2 \cdots j_n} \ket{1} \right)}{\sqrt{2^n}}
-\end{eqnarray*}
+\begin{eqnarray}
+  \ket{j} = \ket{j_1 \cdots j_n} \to \frac{\left( \ket{0} + e^{2\pi 0.j_n} \ket{1} \right) \otimes \cdots \otimes \left( \ket{0} + e^{2\pi 0.j_1j_2 \cdots j_n} \ket{1} \right)}{\sqrt{2^n}} 
+  \label{eq: goal}
+\end{eqnarray}
 という変換ができればよい。
+
+\section{回路の作成}
+量子フーリエ変換を実行する回路を作成していく。
+そのため、アダマールゲート$H$についての等式、
+\begin{equation*}
+  H \ket{M} = \frac{\ket{0} + e^{i 2\pi 0.m} \ket{1}}{\sqrt{2}} \qquad (m = 0, 1)
+\end{equation*}
+と、角度$\tfrac{2 \pi}{2^l}$の一般位相ゲート
+\begin{eqnarray*}
+  Re = 
+  \begin{pmatrix}
+    1 & 0 \\
+    0 & e^{i \frac{2\pi}{2^l}}
+  \end{pmatrix}
+\end{eqnarray*}
+を利用する。
+
+まず初めに、状態$(\ket{0} + e^{i 2 \pi 0.j_1j_2\cdots j_n} \ket{1})$の部分を作る。
+1番目の量子ビット$\ket{j_1}$にアダマールゲートを作用させると、
+\begin{eqnarray*}
+  \ket{j_1\cdots j_n} \to \frac{1}{\sqrt{2}} (\ket{0} + e^{i 2\pi 0.j_1} \ket{1}) \ket{j_2 \cdots j_n}
+\end{eqnarray*}
+となる。ここで、2番目のビット$\ket{j_2}$を制御ビットとする一般位相ゲート$R_2$を1番目の量子ビットにかけると、$j_2 = 0$の時は何もせず、$j_2 = 1$の時は1番目の量子ビットの$\ket{1}$部分に位相$2\pi / 2^2 = 0.01$(2進小数)がつくため、
+\begin{eqnarray*}
+  \frac{1}{\sqrt{2}} (\ket{0} + e^{i 2\pi 0.j_1} \ket{1}) \ket{j_2 \cdots j_n} \to \frac{1}{\sqrt{2}} (\ket{0} + e^{i 2\pi 0.j_1 j_2} \ket{1}) \ket{j_2 \cdots j_n}
+\end{eqnarray*}
+となる。以下、l番目の量子ビット$\ket{j_l}$を制御ビットとする一般位相ゲート$R_l$をかけると$(l = 3, \cdots, n)$、最終的に、
+\begin{eqnarray*}
+  \frac{1}{\sqrt{2}}(\ket{0} + e^{i 2\pi 0.j_1 \cdots j_n} \ket{1}) \ket{j_2 \cdots j_n}
+\end{eqnarray*}
+が得られる。
+
+次に、状態$(\ket{0} + e^{i 2\pi 0.j_2 \cdots j_n} \ket{1})$の部分を作る。先ほどと同様に、2番目のビット$\ket{j_2}$にアダマールゲートを作用させると、
+\begin{eqnarray*}
+  \frac{1}{\sqrt{2}}(\ket{0} + e^{i 2\pi 0.j_1 \cdots j_n} \ket{1}) \frac{1}{\sqrt{2}} (\ket{0} + e^{i 2\pi 0.j_2} \ket{1}) \ket{j_3 \cdots j_n}
+\end{eqnarray*}
+となる。再び、3番目の量子ビットを制御ビット$\ket{j_3}$とする位相ゲート$R_2$をかけると、
+\begin{eqnarray*}
+  \frac{1}{\sqrt{2}}(\ket{0} + e^{i 2 \pi 0.j_1 \cdots j_n}\ket{1}) \frac{1}{\sqrt{2}} (\ket{0} + e^{i 2\pi 0.j_2 j_3} \ket{1}) \ket{j_3 \cdots j_n}
+\end{eqnarray*}
+となる。これを繰り返して、
+\begin{eqnarray*}
+  \frac{1}{\sqrt{2}}(\ket{0} + e^{i 2 \pi 0.j_1 \cdots j_n}\ket{1}) \frac{1}{\sqrt{2}} (\ket{0} + e^{i 2\pi 0.j_2 \cdots j_n} \ket{1}) \ket{j_3 \cdots j_n}
+\end{eqnarray*}
+となる。
+
+以上のことを、$l$番目の量子ビット$\ket{j_l}$にアダマールゲート・制御位相ゲート$R_l, R_{l+1}, \cdots$をかけていく$(l = 3, \cdots , n)$。
+すると、最終的に、
+\begin{eqnarray*}
+  \ket{j_1 \cdots j_n} \to \left( \frac{\ket{0} + e^{i 2\pi 0.j_1 \cdots j_n}\ket{1}}{\sqrt{2}} \right) \otimes \left( \frac{\ket{0} + e^{i 2\pi 0.j_2 \cdots j_n}\ket{1}}{\sqrt{2}} \right) \otimes \cdots \otimes \left( \frac{\ket{0} + e^{i 2\pi 0.j_n}\ket{1}}{\sqrt{2}} \right)
+\end{eqnarray*}
+となる。
+
+(\refeq{eq: goal})と比較すると、ビットの順番が逆になっているので、SWAPゲートでビットの順番を反転させてあげれば、量子フーリエ変換を実行する回路が構成でいたことになる。
+
+SWAPゲートを除いた、量子回路図で書くと、図\refeq{fig: quantumCircuit}となる。
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=15cm]{img/quantumCircuit.png}
+  \caption{SWAPゲートを除いた量子フーリエ変換の量子回路}
+  \label{fig: quantumCircuit}
+\end{figure}  
 
 \end{document}
