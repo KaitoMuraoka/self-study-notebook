@@ -1,0 +1,47 @@
+\RequirePackage{plautopatch}
+\RequirePackage[l2tabu, orthodox]{nag}
+
+\documentclass[platex,dvipdfmx]{jlreq}			% for platex
+% \documentclass[uplatex,dvipdfmx]{jlreq}		% for uplatex
+\usepackage{graphicx}
+\usepackage{bxtexlogo}
+\usepackage{braket}
+\usepackage{amsthm}
+\newtheorem{dfn}{定義}
+\newtheorem{thm}{定理}
+\usepackage{amsmath}
+\usepackage{mathtools}
+
+
+\title{2.2量子力学の公理}
+
+\author{9BSP1118 村岡海人}
+\date{6月27日}
+\begin{document}
+\maketitle
+\section*{2.2.1 状態空間}
+量子力学の最初の公理によって量子力学の活動の舞台が設定される.その舞台は線形代数で身近になったHilbert空間である.
+\begin{thm}
+    任意の孤立した物理システムに関して、システムの\textbf{状態空間}と呼ぶ内積を伴う複素ベクトル空間(つまりHilbert空間)が存在する.システムは状態空間の単位ベクトルである\textbf{状態ベクトル}によって完全に記述できる.
+\end{thm}
+
+最も簡単で我々が最も関心を持つ量子力学システムは\textbf{qビット}である。qビットは2次元状態空間を持つ。$\ket{0}$と$\bra{1}$がその状態空間の基底を形成する。そのとき状態空間における任意の状態ベクトルは次のように書ける。
+\begin{equation}
+    \ket{\psi} = a\ket{0} + b\ket{1} \tag{2.82}
+\end{equation}
+% \begin{align*}
+%     \ket{\psi} = a\ket{0} + b\ket{1} \tag{foo} \\
+%     \ket{0}  =
+% \end{align*}
+ここで、$a$と$b$は複素数である。$\ket{\psi}$が単位ベクトルであるという条件$\braket{\psi | \psi} = 1$は$|a|^2 + |b|^2 = 1$と等価であり、条件$\braket{\psi | \psi} = 1$を状態ベクトルの\textbf{正規化条件}と呼ぶ。
+
+
+qビットについて議論するとき、正規直行の基底ベクトル集合$\ket{0}$と$\ket{1}$を常に参照し、その規定は前もって固定していると考える。直感的には状態$\ket{0}$と$\ket{1}$はビットがとる２つの値$0$と$1$に相似している。qビットがビットと異なるのは2つの状態の\textbf{重ね合わせ}$a\ket{0} + b\ket{1}$が存在し得ることであり、その場合はqビットが確定的に$\ket{0}$状態にあるとか確定的に$\ket{1}$状態にあるといえない。
+
+
+任意の線型結合$\sum_i \alpha_i\ket{\psi_i}$は状態$\ket{\psi_i}$に対する\textbf{振幅}$\alpha_i$を状態$\ket{\psi_i}$を以て重ねたものである。したがって、例えば、
+\begin{equation*}
+    \frac{\ket{0} - \ket{1}}{\sqrt{2}} \tag{2.83}
+\end{equation*}
+は状態$\ket{0}$に対して振幅$1/\sqrt{2}$、状態$\ket{1}$に対して振幅$-1/\sqrt{2}$で、状態$\ket{0}$と$\ket{1}$を重ね合わせたものである。
+\end{document}
