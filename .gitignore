@@ -4,3 +4,5 @@
 *.dvi
 *.fdb_latexmk	
 *.fls
+.viscode/
+.workspace/
