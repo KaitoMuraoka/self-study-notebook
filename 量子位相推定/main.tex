@@ -5,6 +5,8 @@
 % \documentclass[uplatex,dvipdfmx]{jlreq}		% for uplatex
 \usepackage{graphicx}
 \usepackage{bxtexlogo}
+\usepackage{braket}  % ブラケット表示
+\usepackage{amsmath}
 
 \title{量子位相推定}
 
@@ -12,6 +14,79 @@
 \date{\today}
 \begin{document}
 \maketitle
-\section{量子位相推定}
+\section{概要}
+量子位相推定アルゴリズムは、ユニタリ演算子$U$とその固有ベクトルの１つ$\ket{\psi}$が与えられた時、その固有値を求めるアルゴリズムである。このアルゴリズムは数多くの量子アルゴリズムの基礎として使われており、量子アルゴリズムの中で最も重要なものの１つである。
+\subsection{アダマールテストの改良}
+ユニタリ演算$U$の固有値$e^{i \lambda}$を求める問題を考える。アダマールテストでは、固有値の位相$\lambda$はテストの測定結果の確率分布に反映され、測定結果を沢山サンプルすることで$\lambda$を推定していた。これを工夫することにより、測定結果から位相の情報を直接取り出す。
 
+アダマールテストを始める前に %FIX:この表記は変えた方がいいかも
+準備として、$\lambda/2\pi$を2進数に変換すると、
+\begin{eqnarray*}
+    \frac{\lambda}{2\pi} = \frac{j_1}{2^1} + \frac{j_2}{2^2} + \cdots + \frac{j_k}{2^k} + \cdots
+\end{eqnarray*}
+となる。$j_k$は$0$または$1$の値をとる古典ビットである。$\lambda$は$e^{i\lambda}$の形のみ出てくるので、$0 \leq \lambda \leq 2\pi$として一般性を失わない。この2進数展開を少数の表記にならって書くと、
+\begin{eqnarray*}
+    \frac{\lambda}{2\pi} = \frac{j_1}{2^1} + \frac{j_2}{2^2} + \cdots + \frac{j_k}{2^k} + \cdots \\
+    \Leftrightarrow \lambda = (2\pi)0.j_1j_2 \cdots j_k \cdots
+\end{eqnarray*}
+ 以下、簡単のため、$\lambda / 2\pi$は小数点以下$n$桁で書けるものとする。
+ \begin{eqnarray*}
+    \lambda = (2\pi)0.j_1j_2j_3 \cdots j_n
+ \end{eqnarray*}
+
+ % ここから本番
+ アダマールテストでは制御ユニタリ演算として$\Lambda (U)$を用いたが、今回はそれを変えた$\Lambda (U^{2^k})$とする。ユニタリ演算$U$の固有ベクトル$\ket{\psi}$とすると、制御ユニタリ演算を作用させた後の状態は、
+ \begin{eqnarray*}
+    \frac{1}{\sqrt{2}} \left( \ket{0} + e^{i 2^k \lambda} \ket{1} \right) \otimes \ket{\psi}
+ \end{eqnarray*}
+ 上記の2進数展開を使うと、
+ \begin{eqnarray*}
+    2^k \lambda = 2^k \cdot (2\pi)0.j_1j_2j_3 \cdots j_r = (2\pi)j_1j_2 \cdots j_k.j_{k+1} \cdots j_n
+ \end{eqnarray*}
+ $e^{i(2\pi)j_1 \cdots j_k} = 1$なので、
+ \begin{eqnarray}
+    \frac{1}{\sqrt{2}}\left( \ket{0} + e^{i(2\pi)0.j_{k+1 \cdots j_n}}\ket{1} \right) \otimes \ket{\psi}
+ \end{eqnarray}
+ となる。
+
+ 次に、固有値の位相を1桁ずつ確定した量子ビットの状態として取り出す。$k=n-1$のとき、
+ \begin{eqnarray*}
+    \frac{1}{\sqrt{2}}\left( \ket{0} + e^{i (2\pi) 0.j_n}\ket{1} \right)
+ \end{eqnarray*}
+ となり、アダマールゲートを作用させると、
+ \begin{eqnarray*}
+    \frac{1}{\sqrt{2}}\left( \ket{0} + e^{i (2\pi) 0.j_n}\ket{1} \right) \rightarrow \ket{j_n}
+ \end{eqnarray*}
+ となる。$\lambda$の2進小数表示の$n$番目のビット$j_n = \pm 1$に対応した状態に変換できる。この状態を測定すれば、$100\%$の確率で$j_n$が観測されるので、１回の測定で$\lambda$の$n$桁目を決定することができる。
+ 次に$k = n -2$の時を考えると、状態は
+ \begin{eqnarray*}
+    \frac{1}{\sqrt{2}}\left( \ket{0} + e^{i (2\pi) 0.j_{n-1}j_n} \ket{1} \right)
+ \end{eqnarray*}
+ である。$j_n$は先ほど調べてあるので、$j_n = 0$の時は何もせず、$j_n = 1$の時は一般位相ゲート、
+ \begin{eqnarray*}
+    R_l ^{\dag} = 
+    \begin{pmatrix}
+        1 & 0 \\
+        0 & e^{-i \frac{2\pi}{2^l}}
+    \end{pmatrix}
+ \end{eqnarray*}
+ より、$R^{\dag} _2$を作用させれば、
+ \begin{eqnarray*}
+    \frac{1}{\sqrt{2}}\left( \ket{0} + e^{i(2\pi)0.j_{n-1}j_n}\ket{1} \right) \rightarrow \frac{1}{\sqrt{2}}\left( \ket{0} + e^{i(2\pi)0.j_{n-1}}\ket{1} \right)
+ \end{eqnarray*}
+ と変換できる。
+ そして、アダマールゲートを作用させれば、
+ \begin{eqnarray*}
+    \frac{1}{\sqrt{2}}\left( \ket{0} + e^{i(2\pi) 0.j_{n-1}} \ket{1} \right) \rightarrow \ket{j_{n-1}}
+ \end{eqnarray*}
+ となるから、$j_{n-1}$もこの状態を１回測定するだけで決定できる。
+
+ 以降、同様に$k = n-3, n-4, \cdots , 0$ とすれば下の方の桁から$j_{k+1}$を決定していくことができる。
+
+ このようにして、アダマールテストを変形することにより、固有値の位相を1桁ずつ確定した量子ビットの状態として取り出すことができる。この手続きを量子回路で一度に行うのが量子位相推定アルゴリズムである。
+
+ 
+
+
+\section{回路}
 \end{document}
