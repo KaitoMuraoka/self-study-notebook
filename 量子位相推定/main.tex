@@ -35,7 +35,7 @@
  \end{eqnarray*}
 
  % ここから本番
- アダマールテストでは制御ユニタリ演算として$\Lambda (U)$を用いたが、今回はそれを変えた$\Lambda (U^{2^k})$とする。ユニタリ演算$U$の固有ベクトル$\ket{\psi}$とすると、制御ユニタリ演算を作用させた後の状態は、
+ アダマールテストでは制御ユニタリ演算として$\Lambda (U)$を用いたが、今回はそれを変えた$\Lambda (U^{2^k})$とする。ユニタリ演算$U$の固有状態$\ket{\psi}$とすると、制御ユニタリ演算を作用させた後の状態は、
  \begin{eqnarray*}
     \frac{1}{\sqrt{2}} \left( \ket{0} + e^{i 2^k \lambda} \ket{1} \right) \otimes \ket{\psi}
  \end{eqnarray*}
@@ -111,6 +111,29 @@
 このアルゴリズムは、素因数分解や量子化学アルゴリズムなど、多くのアルゴリズムのサブルーチンとして利用されており、量子コンピュータが従来のコンピュータよりも指数的に高速に解を得られると期待される最も重要な例である。
 
 \section{量子位相推定アルゴリズムの回路}
+以下、量子状態$\ket{\psi}$を固有状態$\ket{eigen}$とその固有値$\lambda$に限定する。
+% 入力状態が固有状態の重ね合わせの場合でも全く同じ議論が使える？ので、一般性は失われていない
+アダマールテストでは１つしか測定用の量子ビットを使わなかったが、量子位相推定では、測定用の補助量子ビットとして$n$個の量子ビットを確保する。量子位相推定を行う量子回路は図\ref{fig: Q}である。
+\begin{figure}[htbp]
+    \begin{center}
+        \includegraphics[width = 150mm]{figures/Q.png}
+        \caption{量子位相推定の量子回路}
+        \label{fig: Q}
+    \end{center}
+\end{figure}
 
+まず初めに、$\ket{0}$に初期化された$n$個の量子ビットのそれぞれに、アダマールテストと同様にアダマールゲートと制御ユニタリー演算を作用させる。ただし、$k$番目($k = 1, \cdots , n$)の補助量子ビットには制御$U^{2^{k-1}}$演算をすることにする。$U \ket{eigen} = e^{i2\pi \lambda}\ket{eigen}$だから、$k$番目の補助量子ビットには$e^{i \lambda 2^{k}}$の位相が獲得されるので、%位相キックバック
+\begin{eqnarray*}
+    \left( \frac{\ket{0}+e^{i(2\pi)0.j_1\cdots j_n}\ket{1}}{\sqrt{2}} \right) \otimes \left( \frac{\ket{0}+e^{i(2\pi)0.j_2\cdots j_n}\ket{1}}{\sqrt{2}} \right) \otimes \cdots \otimes \left( \frac{\ket{0}+e^{i(2\pi)0.j_n}\ket{1}}{\sqrt{2}} \right) \otimes \ket{eigen}
+\end{eqnarray*}
+という状態になる。つまり、固有値の位相を2進少数表示で1ビットずつシフトしたものが各補助量子ビットの位相に格納されることになる。
+
+次に、$n$個の補助量子ビットの状態は、量子フーリエ変換の結果の式と同じ形をしている。よって、逆量子フーリエ変換(図の$QFT^{\dag}$)をこれらの補助量子ビットに作用させると、
+\begin{eqnarray*}
+    \left( \frac{\ket{0} + e^{i(2\pi)0.j_1\cdots j_n}\ket{1}}{\sqrt{2}} \right) \otimes \left( \frac{\ket{0} + e^{i(2\pi)0.j_2\cdots j_n}\ket{1}}{\sqrt{2}} \right) \otimes \cdots \otimes \left( \frac{\ket{0} + e^{i(2\pi)0.j_n}\ket{1}}{\sqrt{2}} \right) \otimes \ket{eigen} \rightarrow \ket{j_1 \cdots j_n}
+\end{eqnarray*}
+となる。よって、この段階で補助量子ビットの測定を行えば、$100\%$の確率で$j_1,j_2, \cdots, j_n$を得ることができ、$U$の固有値の位相$\lambda$が求められる。
+
+まとめると、測定用の各量子ビットを制御ビットとする制御$U^{2^k}$演算を行い、固有値の位相の情報を補助量子ビットに移した後、逆フーリエ変換で位相の値を取り出すのが、量子位相推定アルゴリズムである。
 
 \end{document}
