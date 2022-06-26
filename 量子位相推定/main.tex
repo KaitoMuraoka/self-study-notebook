@@ -24,12 +24,13 @@
 \begin{eqnarray*}
     \frac{\lambda}{2\pi} = \frac{j_1}{2^1} + \frac{j_2}{2^2} + \cdots + \frac{j_k}{2^k} + \cdots
 \end{eqnarray*}
-となる。$j_k$は$0$または$1$の値をとる古典ビットである。$\lambda$は$e^{i\lambda}$の形のみ出てくるので、$0 \leq \lambda \leq 2\pi$として一般性を失わない。この2進数展開を少数の表記にならって書くと、
+となる。$j_k$は$0$または$1$の値をとる古典ビットである。$\lambda$は$e^{i\lambda}$% 未満である
+の形のみ出てくるので、$0 \leq \lambda \leq 2\pi$として一般性を失わない。この2進数展開を少数の表記にならって書くと、
 \begin{eqnarray*}
     \frac{\lambda}{2\pi} = \frac{j_1}{2^1} + \frac{j_2}{2^2} + \cdots + \frac{j_k}{2^k} + \cdots \\
     \Leftrightarrow \lambda = (2\pi)0.j_1j_2 \cdots j_k \cdots
 \end{eqnarray*}
- 以下、簡単のため、$\lambda / 2\pi$は小数点以下$n$桁で書けるものとする。
+ 以下、簡単のため、$\lambda / 2\pi$は小数点以下$n$桁で書けるものとする。% ここが議論が必要
  \begin{eqnarray*}
     \lambda = (2\pi)0.j_1j_2j_3 \cdots j_n
  \end{eqnarray*}
@@ -91,7 +92,7 @@
  $U$を量子回路として構成できる一般的なユニタリ行列とする。$U$の固有ベクトルを$\ket{eigen_l}$とし、対応する固有値を$e^{i\lambda_l}$とする。ある一般的な量子状態$\ket{\psi}$が与えられたとする。これは必ず固有ベクトルで展開できるので、　
  \begin{eqnarray*}
     \ket{\psi} = \sum_l c_l \ket{eigen_l}
- \end{eqnarray*}
+ \end{eqnarray*} %?????
  となる。具体的に係数$c_l$がどのような値になるかはまだわからない。このとき、量子位相推定アルゴリズムは、$n$個の補助量子ビットを用いて、入力状態
  \begin{eqnarray*}
     \ket{00\cdots 0}\ket{\psi}
@@ -136,4 +137,10 @@
 
 まとめると、測定用の各量子ビットを制御ビットとする制御$U^{2^k}$演算を行い、固有値の位相の情報を補助量子ビットに移した後、逆フーリエ変換で位相の値を取り出すのが、量子位相推定アルゴリズムである。
 
+\subsection{hoge}
+制御ユニタリー演算を用いて各補助量子ビットの位相の少数第1位にのみビット$j_k$が出てくるようにし、アダマールゲートを作用させて$\ket{j_n}$が得られるようにしている。
+
+$\ket{j_n}$は、$n$番目の補助量子ビットである。
+
+補助量子ビットを計算基底で測定すれば、$j_1, \cdots, j_n$が得られる。
 \end{document}

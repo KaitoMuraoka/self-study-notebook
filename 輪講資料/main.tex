@@ -9,6 +9,7 @@
 \usepackage{amsthm}
 \newtheorem{dfn}{定義}
 \newtheorem{thm}{定理}
+\newtheorem*{thm3}{定理2'}
 \usepackage{amsmath}
 \usepackage{mathtools}
 
@@ -44,4 +45,66 @@ qビットについて議論するとき、正規直行の基底ベクトル集�
     \frac{\ket{0} - \ket{1}}{\sqrt{2}} \tag{2.83}
 \end{equation*}
 は状態$\ket{0}$に対して振幅$1/\sqrt{2}$、状態$\ket{1}$に対して振幅$-1/\sqrt{2}$で、状態$\ket{0}$と$\ket{1}$を重ね合わせたものである。
+
+\section*{2.2.2 時間発展}
+\begin{thm}
+    \textbf{閉じた}量子システムの時間発展は\textbf{ユニタリー変換}で記述される。つまり、時刻$t_1$におけるシステムの状態$\ket{\psi}$は、時刻$t_2$におけるシステムの状態$\ket{\psi'}$と時刻$t_1$と$t_2$だけに依存するユニタリーオペレータ$U$によって関係付けられる。
+    \begin{equation*}
+        \ket{\psi'} = U \ket{\psi} \tag{2.84}
+    \end{equation*}
+\end{thm}
+% 量子力学が特定の量子システムの状態空間や量子状態を教えてくれないのと同様に、実世界の量子ダイナミックスを記述するユニタリーオペレータ$U$がどのようなものか教えてくれない。
+量子計算と量子情報において重要な、単一qビットに関するユニタリーオペレータの例を2、3見てみる。
+すでにそのようなユニタリーオペレータの例を2.2.3項でPauliの行列を定義した。また、古典NOTゲートのアナロジーから$X$行列は量子NOTゲートであることが知られている。
+PauliのXとZ行列は\textbf{ビット反転}および\textbf{位相反転}行列とも呼ばれている。
+
+もう１つのユニタリーオペレータは\textbf{Hadamardゲート}であり、$H$と表記する。このオペレータの作用は$H\ket{0} \equiv (\ket{0} + \ket{1})/\sqrt{2}$, $H\ket{0} \equiv (\ket{0} - \ket{1})/\sqrt{2}$ で定義され、行列表現では次のように与えられる:
+\begin{equation*}
+    H = \frac{1}{\sqrt{2}}
+    \begin{bmatrix}
+        1 & 1 \\
+        1 & -1 \tag{2.85}
+    \end{bmatrix}
+\end{equation*}
+
+公理2は2つの異なる時刻における閉じた量子状態がどのように関係するかについて述べている。この公理を発展させると、量子システムの進化を連続時間で記述できる。
+% この発展した公理から公理2を回復することもできる
+発展した公理を述べる前に以下、２つのことを述べる。
+\begin{itemize}
+    \item  表記状の注意：次の議論に現れる$H$はHadamardオペレータと同じではない
+    \item  次の公理には微分方程式が使われる
+\end{itemize}
+
+\begin{thm3}
+    閉じた量子システムの状態の時間発展は\textbf{Schr\"{o}dinger}方程式
+    \begin{equation*}
+        i\hbar \frac{d\ket{\psi}}{dt} = H\ket{\psi} \tag{2.86}
+    \end{equation*}
+    で記述される。$\hbar$は\textbf{Planck}の定数。$H$はHermiteオペレータであり、閉じたシステムのハミルトニアンと呼ぶ。
+\end{thm3}
+
+HamiltonianはHermiteオペレータなので、固有値$E$とそれに対応する正規化固有ベクトル$\ket{E}$を用いてスペクトル分解できる。
+\begin{equation*}
+    H = \sum _E E \ket{E}\bra{E} \tag{2.87}
+\end{equation*}
+状態$\ket{E}$は通常\textbf{エネルギー固有状態}または\textbf{定常状態}とも呼ばれ、$E$は状態$\ket{E}$の\textbf{エネルギー}である。最も低いエネルギーはシステムの\textbf{基底状態エネルギー}といい、対応するエネルギー固有状態を\textbf{基底状態}という。
+$\ket{E}$は定常状態と呼ぶのは、唯一の時間変化が全体にかかる位相因子にのみ現れるのが理由である。
+\begin{equation*}
+    \ket{E} \rightarrow \exp(- i E t / \hbar)\ket{E} \tag{2.88}
+\end{equation*}
+例えば、単一のqビットのHamiltonianがPauliの行列のみを用いて、
+\begin{equation*}
+    H = \hbar \omega X \label{2.89} \tag{2.89}
+\end{equation*}
+で与えられたとする。
+このHamiltonianのエネルギー固有状態は明らかに$X$の固有状態と同じ、状態が$(\ket{0} + \ket{1})/\sqrt{2}$と$(\ket{0} - \ket{1})/ \sqrt{2}$、それぞれに対応するエネルギーが$\hbar \omega$と$- \hbar \omega$で与えられる。したがって、基底状態は$(\ket{0} - \ket{1})/ \sqrt{2}$、基底状態エネルギーは$- \hbar \omega$である。　
+ダイナミックスを記述するHamiltonian描像の公理$2'$とユニタリーオペレータ描像の公理$2$の関係は、Schr\"{o}dinger方程式の解を書き下すと得られ、次式が容易に証明できる:
+\begin{equation*}
+    \ket{\psi(t_2)} = \exp\left[ \frac{-i H (t_2 - t_1)}{\hbar} \right]\ket{\psi(t_1)} = U(t_1, t_2)\ket{\psi(t_2)}  \tag{2.90}
+\end{equation*}
+ここで、
+\begin{equation*}
+    U(t_1, t_2) \equiv \exp\left[ \frac{-i H (t_2 - t_1)}{\hbar} \right] \tag{2.91}
+\end{equation*}
+と定義する。
 \end{document}
