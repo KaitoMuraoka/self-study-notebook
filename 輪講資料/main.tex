@@ -8,8 +8,8 @@
 \usepackage{braket}
 \usepackage{amsthm}
 \newtheorem{dfn}{定義}
-\newtheorem{thm}{定理}
-\newtheorem*{thm3}{定理2'}
+\newtheorem{thm}{公理}
+\newtheorem*{thm3}{公理2'}
 \usepackage{amsmath}
 \usepackage{mathtools}
 
@@ -26,7 +26,7 @@
     任意の孤立した物理システムに関して、システムの\textbf{状態空間}と呼ぶ内積を伴う複素ベクトル空間(つまりHilbert空間)が存在する.システムは状態空間の単位ベクトルである\textbf{状態ベクトル}によって完全に記述できる.
 \end{thm}
 
-最も簡単で我々が最も関心を持つ量子力学システムは\textbf{qビット}である。qビットは2次元状態空間を持つ。$\ket{0}$と$\bra{1}$がその状態空間の基底を形成する。そのとき状態空間における任意の状態ベクトルは次のように書ける。
+最も簡単で我々が最も関心を持つ量子力学システムは\textbf{qビット}である。qビットは2次元状態空間の元である。$\ket{0}$と$\ket{1}$がその状態空間の基底を形成する。そのとき状態空間における任意の状態ベクトルは次のように書ける。
 \begin{equation}
     \ket{\psi} = a\ket{0} + b\ket{1} \tag{2.82}
 \end{equation}
@@ -37,7 +37,7 @@
 ここで、$a$と$b$は複素数である。$\ket{\psi}$が単位ベクトルであるという条件$\braket{\psi | \psi} = 1$は$|a|^2 + |b|^2 = 1$と等価であり、条件$\braket{\psi | \psi} = 1$を状態ベクトルの\textbf{正規化条件}と呼ぶ。
 
 
-qビットについて議論するとき、正規直行の基底ベクトル集合$\ket{0}$と$\ket{1}$を常に参照し、その規定は前もって固定していると考える。直感的には状態$\ket{0}$と$\ket{1}$はビットがとる２つの値$0$と$1$に相似している。qビットがビットと異なるのは2つの状態の\textbf{重ね合わせ}$a\ket{0} + b\ket{1}$が存在し得ることであり、その場合はqビットが確定的に$\ket{0}$状態にあるとか確定的に$\ket{1}$状態にあるといえない。
+qビットについて議論するとき、正規直交の基底ベクトル集合$\ket{0}$と$\ket{1}$を常に参照し、その規定は前もって固定していると考える。直感的には状態$\ket{0}$と$\ket{1}$はビットがとる２つの値$0$と$1$に相似している。qビットがビットと異なるのは2つの状態の\textbf{重ね合わせ}$a\ket{0} + b\ket{1}$が存在し得ることであり、その場合はqビットが確定的に$\ket{0}$状態にあるとか確定的に$\ket{1}$状態にあるといえない。
 
 
 任意の線型結合$\sum_i \alpha_i\ket{\psi_i}$は状態$\ket{\psi_i}$に対する\textbf{振幅}$\alpha_i$を状態$\ket{\psi_i}$を以て重ねたものである。したがって、例えば、
@@ -56,7 +56,7 @@ qビットについて議論するとき、正規直行の基底ベクトル集�
 % 量子力学が特定の量子システムの状態空間や量子状態を教えてくれないのと同様に、実世界の量子ダイナミックスを記述するユニタリーオペレータ$U$がどのようなものか教えてくれない。
 量子計算と量子情報において重要な、単一qビットに関するユニタリーオペレータの例を2、3見てみる。
 すでにそのようなユニタリーオペレータの例を2.2.3項でPauliの行列を定義した。また、古典NOTゲートのアナロジーから$X$行列は量子NOTゲートであることが知られている。
-PauliのXとZ行列は\textbf{ビット反転}および\textbf{位相反転}行列とも呼ばれている。
+PauliのXとZ行列はそれぞれ\textbf{ビット反転}および\textbf{位相反転}行列とも呼ばれている。
 
 もう１つのユニタリーオペレータは\textbf{Hadamardゲート}であり、$H$と表記する。このオペレータの作用は$H\ket{0} \equiv (\ket{0} + \ket{1})/\sqrt{2}$, $H\ket{0} \equiv (\ket{0} - \ket{1})/\sqrt{2}$ で定義され、行列表現では次のように与えられる:
 \begin{equation*}
@@ -72,7 +72,6 @@ PauliのXとZ行列は\textbf{ビット反転}および\textbf{位相反転}行�
 発展した公理を述べる前に以下、２つのことを述べる。
 \begin{itemize}
     \item  表記状の注意：次の議論に現れる$H$はHadamardオペレータと同じではない
-    \item  次の公理には微分方程式が使われる
 \end{itemize}
 
 \begin{thm3}
@@ -87,12 +86,12 @@ HamiltonianはHermiteオペレータなので、固有値$E$とそれに対応�
 \begin{equation*}
     H = \sum _E E \ket{E}\bra{E} \tag{2.87}
 \end{equation*}
-状態$\ket{E}$は通常\textbf{エネルギー固有状態}または\textbf{定常状態}とも呼ばれ、$E$は状態$\ket{E}$の\textbf{エネルギー}である。最も低いエネルギーはシステムの\textbf{基底状態エネルギー}といい、対応するエネルギー固有状態を\textbf{基底状態}という。
-$\ket{E}$は定常状態と呼ぶのは、唯一の時間変化が全体にかかる位相因子にのみ現れるのが理由である。
+状態$\ket{E}$は通常\textbf{エネルギー固有状態}または\textbf{定常状態}とも呼ばれ、$E$は状態$\ket{E}$の\textbf{固有エネルギー}である。最も低いエネルギーはシステムの\textbf{基底エネルギー}といい、対応するエネルギー固有状態を\textbf{基底状態}という。
+$\ket{E}$を定常状態と呼ぶのは、唯一の時間変化が全体にかかる位相因子にのみ現れるのが理由である。
 \begin{equation*}
     \ket{E} \rightarrow \exp(- i E t / \hbar)\ket{E} \tag{2.88}
 \end{equation*}
-例えば、単一のqビットのHamiltonianがPauliの行列のみを用いて、
+例えば、単一のqビットのHamiltonianがPauli行列のみを用いて、
 \begin{equation*}
     H = \hbar \omega X \label{2.89} \tag{2.89}
 \end{equation*}
@@ -100,7 +99,7 @@ $\ket{E}$は定常状態と呼ぶのは、唯一の時間変化が全体にか�
 このHamiltonianのエネルギー固有状態は明らかに$X$の固有状態と同じ、状態が$(\ket{0} + \ket{1})/\sqrt{2}$と$(\ket{0} - \ket{1})/ \sqrt{2}$、それぞれに対応するエネルギーが$\hbar \omega$と$- \hbar \omega$で与えられる。したがって、基底状態は$(\ket{0} - \ket{1})/ \sqrt{2}$、基底状態エネルギーは$- \hbar \omega$である。　
 ダイナミックスを記述するHamiltonian描像の公理$2'$とユニタリーオペレータ描像の公理$2$の関係は、Schr\"{o}dinger方程式の解を書き下すと得られ、次式が容易に証明できる:
 \begin{equation*}
-    \ket{\psi(t_2)} = \exp\left[ \frac{-i H (t_2 - t_1)}{\hbar} \right]\ket{\psi(t_1)} = U(t_1, t_2)\ket{\psi(t_2)}  \tag{2.90}
+    \ket{\psi(t_2)} = \exp\left[ \frac{-i H (t_2 - t_1)}{\hbar} \right]\ket{\psi(t_1)} = U(t_1, t_2)\ket{\psi(t_1)}  \tag{2.90}
 \end{equation*}
 ここで、
 \begin{equation*}
