@@ -6,3 +6,4 @@
 *.fls
 .viscode/
 .workspace/
+.DS_Store
