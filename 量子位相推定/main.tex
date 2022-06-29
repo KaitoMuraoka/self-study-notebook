@@ -96,11 +96,31 @@ $k = 1$の場合、アダマールテストと同様に、
 測定を除いた回路全体を位相推定のためのユニタリー行列$W$とすると、
 \begin{eqnarray}
     W\ket{0 \cdots 0}\ket{\psi} = \ket{j_1 \cdots j_n}\ket{\psi}
+    \label{eq: W}
 \end{eqnarray}
 となる$W$を構成できた。
 
 \subsection{入力が固有ベクトルではない場合}
+先ほどは、入力が固有ベクトルである場合を考えた。そのため、次は一般的な量子状態$\ket{\psi}$が与えられた場合を考える。$U$の固有ベクトル$\ket{eigen_l}$とし、対応する固有値を$e^{i \lambda_l}$とする。ある一般的な量子状態$\ket{\psi}$が与えられた場合、これは必ず固有ベクトルで展開することができるので、
+\begin{eqnarray}
+    \ket{\psi} = \sum_l c_l \ket{eigen_l}
+\end{eqnarray}
+となる。$c_l$は複素数の集合である。
+%c_lは展開係数？
 
+これを用いて、式(\ref{eq: W})より、$n$個の補助量子ビットを用いて、
+\begin{eqnarray}
+    W \ket{0 \cdots 0} \ket{\psi} = W \ket{0 \cdots 0} \left( \sum_l c_l \ket{eigen_l} \right) = \sum_l c_l \ket{\lambda_l} \ket{eigen_l}
+\end{eqnarray}
+となる。ここで、$\ket{\lambda_l}$は固有値の位相$\lambda_l$の2進小数表示$\lambda_l = (2\pi)0.j^{(l)} _1 \cdots j^{(l)} _n$に対応する量子状態$\ket{j^{(l)} _1 \cdots j^{(l)} _n}$である。
+
+つまり、位相推定アルゴリズムは、$\ket{\psi}$の重ね合わせの中にあるそれぞれの固有ベクトルに対応した固有値を$n$個の補助量子ビットへと取り出すアルゴリズムとなっている。
+
+この状態に対し、補助量子ビットの測定をすると、確率
+\begin{eqnarray}
+    p_l = |c_l|^2
+\end{eqnarray}
+で、どれか１つの固有ベクトル$\ket{eigen_l}$と固有値$\lambda_l$がランダムで決まり、最終的に$j^{(l)} _1 \cdots j^{(l)} _n$と$\ket{eigen_l}$が出力される。
 
 
 \end{document}
