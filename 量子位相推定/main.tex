@@ -16,12 +16,13 @@
 \maketitle
 \section{概要}
 量子位相推定アルゴリズムは、アダマールテストの測定側の量子ビットを拡張し、量子フーリエ変換を組み合わせたものである。
-この量子アルゴリズムは、数多くの量子アルゴリズムの基礎として使われており、量子アルゴリズムの中で最も重要なものの１つである。
 
-\subsection{アダマールテストの改良}
-アダマールテストでは、固有値の位相$\lambda$はテストの測定結果の確率分布に反映されていた。そのため、測定結果をたくさんサンプルし、$\lambda$を推定する必要があった。
+アダマールテストでは、固有値の位相$\lambda$は測定結果の確率分布に反映されていた。そのため、測定結果をたくさんサンプルし、$\lambda$を推定する必要があった。
 これを少し工夫することにより、測定結果から位相の情報を直接的に取り出すことができる。それが量子位相推定である。
 
+この量子アルゴリズムは、数多くの量子アルゴリズムの基礎として使われており、量子アルゴリズムの中で最も重要なものの１つである。
+
+\subsection{はじめに}
 まず初めに、$\lambda / 2\pi$を2進数に展開する。$\lambda$を$n$桁まで求めたいとすると、
 \begin{eqnarray}
     \frac{\lambda}{2\pi} = \frac{j_1}{2^1} + \frac{j_2}{2^2} + \cdots + \frac{j_n}{2^n}
@@ -32,22 +33,24 @@ $j_k$は古典ビットである。$\lambda$は$e^{i\lambda}$の形のみで出�
 \end{eqnarray}
 と書ける。
 
-アダマールテストでは制御ユニタリ演算として$\Lambda (U)$を用いたが、今回はそれを変えた$\Lambda (U^{2^k})$とする。ユニタリ演算$U$の固有ベクトル$\ket{\psi}$とすると、制御ユニタリ演算を作用させた後の状態は、
-\begin{eqnarray}
-    \frac{1}{\sqrt{2}} \left( \ket{0} + e^{i 2^k \lambda} \ket{1} \right) \otimes \ket{\psi}
- \end{eqnarray}
- となる。2進展開を使うと、
- \begin{eqnarray}
-    2^k \lambda = 2^k 0. j_1 j_2 \cdots j_r = (2\pi) j_1 j_2 \cdots j_k . j_{k+1}\cdots j_n
- \end{eqnarray}
- $e^{i(2\pi)j_1\cdots j_k} = 1$より、
- \begin{eqnarray}
-    \frac{1}{\sqrt{2}}\left( \ket{0} + e^{i(2\pi)0.j_{k+1}\cdots j_n}\ket{1} \right) \otimes \ket{\psi}
- \end{eqnarray}
-となる。
+% アダマールテストでは制御ユニタリ演算として$\Lambda (U)$を用いたが、今回はそれを変えた$\Lambda (U^{2^{k-1}})$とする。ユニタリ演算$U$の固有ベクトル$\ket{\psi}$とすると、制御ユニタリ演算を作用させた後の状態は、
+% \begin{eqnarray}
+%     \frac{1}{\sqrt{2}} \left( \ket{0} + e^{i 2^{k-1} \lambda} \ket{1} \right) \otimes \ket{\psi}
+%  \end{eqnarray}
+%  となる。2進展開を使うと、
+%  \begin{eqnarray}
+%     2^{k-1} \lambda = 2^{k-1} 0. j_1 j_2 \cdots j_r = (2\pi) j_1 j_2 \cdots j_k . j_{k+1}\cdots j_n
+%  \end{eqnarray}
+%  $e^{i(2\pi)j_1\cdots j_k} = 1$より、
+%  \begin{eqnarray}
+%     \frac{1}{\sqrt{2}}\left( \ket{0} + e^{i(2\pi)0.j_{k+1}\cdots j_n}\ket{1} \right) \otimes \ket{\psi}
+%  \end{eqnarray}
+% となる。
 
 \subsection{位相推定アルゴリズムの流れ}
-この量子位相推定は以下のような流れで行う。初期化された$n$個のqビットと入力状態$\ket{\psi}$を用いてユニタリー演算$U$の固有値の位相因子$\lambda$を求める。
+
+
+量子位相推定は以下のような流れで行う。初期化された$n$個のqビットと入力状態$\ket{\psi}$を用いてユニタリー演算$U$の固有値の位相$\lambda$を求める。
 \begin{enumerate}
     \item $\ket{0}$に初期化された$n$個の補助量子ビットのそれぞれに、アダマールテストと同様、アダマールゲートを作用させる。
     \item 再度、$n$個の量子ビットのそれぞれに、制御ユニタリー演算を作用させる。ただし、$k$番目($k = 1, \cdots , n$)の補助量子ビットには制御$U^{2^{k-1}}$演算をする。
@@ -76,6 +79,7 @@ $k = 1$の場合、アダマールテストと同様に、
 となり、$k = 2$の場合は、
 \begin{eqnarray}
     \frac{1}{\sqrt{2}}\left( \ket{0} + e^{i(2\pi)2^1 \cdot 0.j_{1}j_{2}\cdots j_n}\ket{1} \right) \\
+    = \frac{1}{\sqrt{2}}\left( \ket{0} + e^{i(2\pi)j_1.j_{2}j_{3}\cdots j_n}\ket{1} \right)\\
     = \frac{1}{\sqrt{2}}\left( \ket{0} + e^{i(2\pi)0.j_{2}j_{3}\cdots j_n}\ket{1} \right)
 \end{eqnarray}
 となる。これを$n$回繰り返して、
@@ -93,7 +97,7 @@ $k = 1$の場合、アダマールテストと同様に、
 
 この段階で補助量子ビットの測定を行えば、$100\%$の確率で、$j_1, j_2, \cdots , j_n$が得られ、$U$の固有値の位相$\lambda$が求められる。
 
-測定を除いた回路全体を位相推定のためのユニタリー行列$W$とすると、
+測定を除いた回路全体を位相推定のためのユニタリー演算$W$とすると、
 \begin{eqnarray}
     W\ket{0 \cdots 0}\ket{\psi} = \ket{j_1 \cdots j_n}\ket{\psi}
     \label{eq: W}
