@@ -23,13 +23,14 @@
 この量子アルゴリズムは、数多くの量子アルゴリズムの基礎として使われており、量子アルゴリズムの中で最も重要なものの１つである。
 
 \subsection{はじめに}
-まず初めに、$\lambda / 2\pi$を2進数に展開する。$\lambda$を$n$桁まで求めたいとすると、
+まず初めに、$\lambda / 2\pi$を2進数に展開する。
+% $\lambda$を$n$桁まで求めたいとすると、
 \begin{eqnarray}
-    \frac{\lambda}{2\pi} = \frac{j_1}{2^1} + \frac{j_2}{2^2} + \cdots + \frac{j_n}{2^n}
+    \frac{\lambda}{2\pi} = \frac{j_1}{2^1} + \frac{j_2}{2^2} + \cdots + \frac{j_k}{2^k} + \cdots
 \end{eqnarray}
-$j_k$は古典ビットである。$\lambda$は$e^{i\lambda}$の形のみで出てくるので、$0 \leq \lambda < 2\pi$ として一般性を失わない。この2進数を、通常の小数の表記にならって、
+$j_k$は$0$または$1$をとる古典ビットである。$\lambda$は$e^{i\lambda}$の形のみで出てくるので、$0 \leq \lambda < 2\pi$ として一般性を失わない。この2進数を、通常の小数の表記にならって、
 \begin{eqnarray}
-    \lambda = (2\pi) 0.j_1j_2\cdots j_n
+    \lambda = (2\pi) 0.j_1j_2\cdots j_k \cdots \label{eq: binary digits}
 \end{eqnarray}
 と書ける。
 
@@ -48,7 +49,6 @@ $j_k$は古典ビットである。$\lambda$は$e^{i\lambda}$の形のみで出�
 % となる。
 
 \subsection{位相推定アルゴリズムの流れ}
-
 
 量子位相推定は以下のような流れで行う。初期化された$n$個のqビットと入力状態$\ket{\psi}$を用いてユニタリー演算$U$の固有値の位相$\lambda$を求める。
 \begin{enumerate}
@@ -69,6 +69,11 @@ $j_k$は古典ビットである。$\lambda$は$e^{i\lambda}$の形のみで出�
 \section{量子位相推定}
 \subsection{入力が固有ベクトルの場合}
 入力が固有ベクトル$\ket{\psi}$である場合を考える。
+また、ここでは位相$\lambda$が$n$桁まで2進数展開できる特殊な$\lambda$であるとする。すると、式（\ref{eq: binary digits}）より、位相$\lambda$の2進数展開は、
+\begin{eqnarray}
+    \lambda = (2\pi)0.j_1 j_2 \cdots j_n
+\end{eqnarray}
+となる。
 
 まず初めに、$n$個の$\ket{0}$に初期化された補助量子ビットのそれぞれに、アダマールゲートと制御ユニタリー演算$\Lambda (U^{2^{k-1}})$を作用させる。$U\ket{\psi} = e^{i2\pi \lambda} \ket{\psi}$なので、$k$番目の補助量子ビットには$e^{i 2^{k-1} \lambda}$の位相が獲得される。
 
@@ -80,7 +85,7 @@ $k = 1$の場合、アダマールテストと同様に、
 \begin{eqnarray}
     \frac{1}{\sqrt{2}}\left( \ket{0} + e^{i(2\pi)2^1 \cdot 0.j_{1}j_{2}\cdots j_n}\ket{1} \right) \\
     = \frac{1}{\sqrt{2}}\left( \ket{0} + e^{i(2\pi)j_1.j_{2}j_{3}\cdots j_n}\ket{1} \right)\\
-    = \frac{1}{\sqrt{2}}\left( \ket{0} + e^{i(2\pi)0.j_{2}j_{3}\cdots j_n}\ket{1} \right)
+    = \frac{1}{\sqrt{2}}\left( \ket{0} + e^{i(2\pi)0.j_{2}j_{3}\cdots j_n}\ket{1} \right) \label{eq: 8}
 \end{eqnarray}
 となる。これを$n$回繰り返して、
 \begin{eqnarray}
@@ -97,12 +102,25 @@ $k = 1$の場合、アダマールテストと同様に、
 
 この段階で補助量子ビットの測定を行えば、$100\%$の確率で、$j_1, j_2, \cdots , j_n$が得られ、$U$の固有値の位相$\lambda$が求められる。
 
-測定を除いた回路全体を位相推定のためのユニタリー演算$W$とすると、
+% 測定を除いた回路全体を位相推定のためのユニタリー演算$W$とすると、
+% \begin{eqnarray}
+%     W\ket{0 \cdots 0}\ket{\psi} = \ket{j_1 \cdots j_n}\ket{\psi}
+%     \label{eq: W}
+% \end{eqnarray}
+% となる$W$を構成できた。
+
+まとめると、位相推定アルゴリズムによって、対応する固有ベクトル$\ket{\psi}$で与えられるユニタリーオペレータ$U$の固有値の位相$\lambda$を推定できる。この手続きの核心を成す重要な点は次の変換を実行する逆量子フーリエ変換にある。式(\ref{eq: 8})より、
 \begin{eqnarray}
-    W\ket{0 \cdots 0}\ket{\psi} = \ket{j_1 \cdots j_n}\ket{\psi}
-    \label{eq: W}
+    \left( \frac{\ket{0} + e^{i(2\pi) 0. j_1 \cdots j_n} \ket{1}}{\sqrt{2}} \right) \otimes \cdots \otimes \left( \frac{\ket{0} + e^{i(2\pi) 0.j_n} \ket{1}}{\sqrt{2}} \right) = \frac{1}{2^{n/2}} \sum_{k = 0} ^{2^n - 1} e^{2\pi i j k}\ket{k}
 \end{eqnarray}
-となる$W$を構成できた。
+とすると、
+\begin{eqnarray}
+    \frac{1}{2^{n/2}} \sum_{k = 0} ^{2^n - 1} e^{2\pi i j k}\ket{k}\ket{\psi} \rightarrow \ket{\tilde{j}}\ket{\psi}
+\end{eqnarray}
+ここで、$j = 0.j_1 j_2 \cdots j_n$ 、
+$\ket{\tilde{\lambda}}$は測定さえれたとき$\lambda$の良い測定量を与える状態を表す。
+
+
 
 \subsection{入力が固有ベクトルではない場合}
 先ほどは、入力が固有ベクトルである場合を考えた。そのため、次は一般的な量子状態$\ket{\psi}$が与えられた場合を考える。$U$の固有ベクトル$\ket{eigen_l}$とし、対応する固有値を$e^{i \lambda_l}$とする。ある一般的な量子状態$\ket{\psi}$が与えられた場合、これは必ず固有ベクトルで展開することができるので、
