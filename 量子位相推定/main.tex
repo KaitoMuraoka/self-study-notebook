@@ -26,7 +26,7 @@
 まず初めに、$\lambda / 2\pi$を2進数に展開する。
 % $\lambda$を$n$桁まで求めたいとすると、
 \begin{eqnarray}
-    \frac{\lambda}{2\pi} = \frac{j_1}{2^1} + \frac{j_2}{2^2} + \cdots + \frac{j_k}{2^k} + \cdots
+    \frac{\lambda}{2\pi} = j = \frac{j_1}{2^1} + \frac{j_2}{2^2} + \cdots + \frac{j_k}{2^k} + \cdots
 \end{eqnarray}
 $j_k$は$0$または$1$をとる古典ビットである。$\lambda$は$e^{i\lambda}$の形のみで出てくるので、$0 \leq \lambda < 2\pi$ として一般性を失わない。この2進数を、通常の小数の表記にならって、
 \begin{eqnarray}
@@ -92,7 +92,7 @@ $k = 1$の場合、アダマールテストと同様に、
     \left( \frac{\ket{0} + e^{i(2\pi) 0. j_1 \cdots j_n} \ket{1}}{\sqrt{2}} \right) \otimes \left( \frac{\ket{0} + e^{i(2\pi) 0. j_2 \cdots j_n} \ket{1}}{\sqrt{2}} \right) \otimes \cdots \otimes \left( \frac{\ket{0} + e^{i(2\pi) 0.j_n} \ket{1}}{\sqrt{2}} \right) \otimes \ket{\psi}
     \label{eq:9}
 \end{eqnarray}
-という状態が得られる。つまり、固有値の位相を2進小数表示で1ビットずつシフトしたのもが各補助量子ビットの位相に格納される。
+という状態が得られる。つまり、固有値の位相を2進小数表示で1ビットずつシフトしたのもが式(\ref{eq:9})のように各補助量子ビットの位相に格納される。
 
 式(\ref{eq:9})の形は、量子フーリエ変換の結果の式と同じ形をしている。そのため、次は逆量子フーリエ変換($QFT^{\dagger}$)を補助量子ビットに作用させると、
 \begin{eqnarray}
@@ -116,21 +116,22 @@ $k = 1$の場合、アダマールテストと同様に、
 とすると、
 \begin{eqnarray}
     \frac{1}{2^{n/2}} \sum_{k = 0} ^{2^n - 1} e^{2\pi i j k}\ket{k}\ket{\psi} \rightarrow \ket{\tilde{j}}\ket{\psi} \label{eq: Lion}
+    \label{eq: Quantum Computation and Quantum Information(5.22)}
 \end{eqnarray}
 % ここで、$j = 0.j_1 j_2 \cdots j_n$ 、
-ここで、$\ket{\tilde{\lambda}}$は測定さえれたとき$\lambda$の良い測定量を与える状態を表す。
+ここで、$\ket{\tilde{j}}$は測定さえれたとき$j$の良い測定量を与える状態を表す。
+
+
 
 \subsection{$\lambda$が$n$桁の2進数で表せられない場合}
 $\lambda$が2進数で表せない場合について、位相推定アルゴリズムがどのような状態を返すのか考える。
+式(\ref{eq: Quantum Computation and Quantum Information(5.22)})より、$n$ビットでは高い確率で$\lambda$のかなり良い近似を与えることを明らかにした。
+$\lambda$が2進数で表記できない場合、つまり$\lambda$が2進数で表記する際に$n$桁より大きくなる場合、最後の測定の際に若干のエラーが生じる。
+このエラーは測定を繰り返せば克服することができる。
 
-式(\ref{eq: Lion})より、係数を
-\begin{eqnarray}
-    a(k) = e^{2\pi i j k}
-\end{eqnarray}
-とすると、
-$a(k)$は、$k$に対して$j$という振動数を持って振動していることがわかる。そのため、フーリエ変換後には$j$に対応する$\ket{j}$の振幅だけが残る。フーリエ変換の性質から、 $\lambda$がちょうど$n$桁の2進数で表せなくても、近似値にあたる$\ket{\tilde{j}}$周辺の振幅が大きくなる。
 
-では、高い確率で$\lambda$を推定するにはどうすれば良いか考える。$b$を$0$から$2^n - 1$の範囲の整数として、$b / 2^t = 0.b_1 b_2 \cdots b_n$が、$j$より小さく$j$の最良の$n$ビット近似になるように選ぶとする。つまり、$j$と$b/2^n$の差$\delta \equiv j - b/2^n$は、$0 \leq \delta \leq 2^{-t} $を満たす。
+では、高い確率で$\lambda$を推定するにはどうすれば良いか考える。$b$を$0$から$2^n - 1$の範囲の整数として、$b / 2^t = 0.b_1 b_2 \cdots b_n$が、$j$より小さく$j$の最良の$n$ビット近似になるように選ぶとする。
+つまり、$j$と$b/2^n$の差$\delta \equiv j - b/2^n$は、$0 \leq \delta \leq 2^{-t} $を満たす。
 
 逆量子フーリエ変換を式(\ref{eq: Leo})に適用すると、
 \begin{eqnarray}
@@ -162,14 +163,52 @@ $- \pi \leq \theta \leq \pi$ならば常に$|1 - \exp(i\theta)| \geq 2 |\theta|/
 \begin{eqnarray}
     p(|m - b| > e) \leq \frac{1}{4}\left[ \sum_{l = -2^{n - 1} + 1}^{-(e + 1)} \frac{1}{(l - 2^n \delta)^2} \sum_{l = e + 1}^{2^t - 1} \frac{1}{(l - 2^n \delta)^2} \right]
 \end{eqnarray}
+となる。$0 \leq \delta \leq 2^{-n}$より、$0 \leq 2^{-n} \delta \leq 1$から、
+\begin{eqnarray}
+    p(|m - b| > e)  &\leq& \frac{1}{4} \left[ \sum_{l = -2^{n-1}+1} ^{-(e+1)} \frac{1}{l^2} + \sum_{l = e + 1} ^{2^n - 1} \frac{1}{(l - 2^n \delta)^2} \right] \\ 
+                    &\leq& \frac{1}{2} \sum _{l = e} ^{2^{n-1}-1} \frac{1}{l^2} \\
+                    &\leq& \frac{1}{2} \int_{e-1}^{2^{n-1}-1}  \,dl  \frac{1}{l^2} \\
+                    &=& \frac{1}{2(e - 1)} \label{eq: Quantum Computation and Quantum Information(5.34)}
+\end{eqnarray}
+精度$2^{-t}$でjを近似する。つまり、$e = 2^{n - t} - 1$と選ぶ。
+位相推定アルゴリズムで$n = t + p$個のqビットを使用すると、式(\ref{eq: Quantum Computation and Quantum Information(5.34)})から、この精度で正し近似を得る確率は少なくとも
+$1 - 1/2(2^p - 2)$であることがわかる。
+したがって、$t$ビット精度で少なくとも$1 - \epsilon$の成功確率で正確に$j$をえるには、
+\begin{eqnarray}
+    n = t + \left\lceil \log \left( 2 + \frac{1}{2\epsilon} \right) \right\rceil 
+\end{eqnarray}
 
-% \subsection{入力が固有ベクトルではない場合}
-% 先ほどは、入力が固有ベクトルである場合を考えた。そのため、次は一般的な量子状態$\ket{\psi}$が与えられた場合を考える。$U$の固有ベクトル$\ket{eigen_l}$とし、対応する固有値を$e^{i \lambda_l}$とする。ある一般的な量子状態$\ket{\psi}$が与えられた場合、これは必ず固有ベクトルで展開することができるので、
+
+
+\subsection{入力が固有ベクトルではない場合}
+先ほどの2.1では、入力が固有ベクトルである場合を考えた。そのため、次は一般的な量子状態$\ket{\psi}$が与えられた場合を考える。
+$U$の固有ベクトル$\ket{eigen_l}$とし、対応する固有値を$e^{i \lambda_l}$とする。ある一般的な量子状態$\ket{\psi}$が与えられた場合、これは必ず固有ベクトルで展開することができるので、
+\begin{eqnarray}
+    \ket{\psi} = \sum_l c_l \ket{eigen_l}
+\end{eqnarray}
+となる。$c_l$は複素数の集合である。
+%c_lは展開係数？
+
+このときの位相推定アルゴリズムは、$n$個の補助量子ビットを用いて、入力状態を
+\begin{eqnarray}
+    \ket{00 \cdots 0}\ket{\psi} \rightarrow \sum_l c_l \ket{\lambda_l}\ket{eigen_l}
+\end{eqnarray}
+のように変換するアルゴリズムのことである。
+ここで、$\lambda_l$の2進数の表示が$n$桁で終わると仮定して、$\ket{\lambda_l}$は固有値の位相$\lambda_l$の2進数表示、$lambda_l = (2\pi) 0.j^{(l)}_1 \cdots j^{(l)}_n$に対応する量子状態$\ket{j^{(l)}_1 \cdots j^{(l)}_n}$である。
+つまり、位相推定アルゴリズムは、$\ket{\psi}$の重ね合わせにあるそれぞれの固有ベクトルに対応した固有値を$n$個数の補助量子ビットへと取り出すアルゴリズムである。
+この状態に対して補助量子ビットの測定をすると、確率、
+\begin{eqnarray}
+    p_l = |c_l|^2
+\end{eqnarray}
+で、どれか１つの固有ベクトル$\ket{eigen_l}$とその固有値$\lambda_l$が乱択される。
+
+
+% 固有ベクトル$\ket{eigen_l}$は固有値$e^{2\pi i j_l}$を持つとする。
+% 位相推定アルゴリズムを走らせると、その結果は、
 % \begin{eqnarray}
-%     \ket{\psi} = \sum_l c_l \ket{eigen_l}
+%     \sum _l c_l \ket{\tilde{j_l}}\ket{eigen_l}
 % \end{eqnarray}
-% となる。$c_l$は複素数の集合である。
-% %c_lは展開係数？
+% に近い出力が与えられる。ここで、$\tilde{j_l}$は位相$j_l$のかなり良い近似である。
 
 % これを用いて、式(\ref{eq: W})より、$n$個の補助量子ビットを用いて、
 % \begin{eqnarray}
