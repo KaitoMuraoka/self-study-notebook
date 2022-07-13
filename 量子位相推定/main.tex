@@ -5,37 +5,224 @@
 % \documentclass[uplatex,dvipdfmx]{jlreq}		% for uplatex
 \usepackage{graphicx}
 \usepackage{bxtexlogo}
+\usepackage{forloop} %繰り返し処理
+\usepackage{braket} %ブラケット
 
-\title{レポートタイトル}
+\title{量子位相推定}
 
-\author{学生番号XXX-XXXX アカリク太郎}
+\author{9BSP1118 村岡海人}
 \date{\today}
 \begin{document}
 \maketitle
-\section{Cloud LaTeXへようこそ}
+\section{概要}
+量子位相推定アルゴリズムは、アダマールテストの測定側の量子ビットを拡張し、量子フーリエ変換を組み合わせたものである。
 
-Cloud LaTeXは，\LaTeX を使った文書の作成・管理をクラウド上で行えるWebサービスです．
-\LaTeX を使うと，複雑な数式
-\begin{equation}
-\frac{\pi}{2} =
-\left( \int_{0}^{\infty} \frac{\sin x}{\sqrt{x}} dx \right)^2 =
-\sum_{k=0}^{\infty} \frac{(2k)!}{2^{2k}(k!)^2} \frac{1}{2k+1} =
-\prod_{k=1}^{\infty} \frac{4k^2}{4k^2 - 1}
-\end{equation}
-を含んだ読みやすくきれいな文書作成ができます．
+アダマールテストでは、固有値の位相$\lambda$は測定結果の確率分布に反映されていた。そのため、測定結果をたくさんサンプルし、$\lambda$を推定する必要があった。
+これを少し工夫することにより、測定結果から位相の情報を直接的に取り出すことができる。それが量子位相推定である。
 
-本サービスは，\LaTeX 文書をリアルタイムに保存・コンパイルし，ユーザーアカウント別に管理します．
-そのため，本サービスにログインするだけで，どこからでも作業を再開でき，ファイルを持ち歩く必要はありません．
-また，様々な \LaTeX テンプレートが用意されているので，手軽に文書を作り始めることができます．
+この量子アルゴリズムは、数多くの量子アルゴリズムの基礎として使われており、量子アルゴリズムの中で最も重要なものの１つである。
+
+\subsection{はじめに}
+まず初めに、$\lambda / 2\pi$を2進数に展開する。
+% $\lambda$を$n$桁まで求めたいとすると、
+\begin{eqnarray}
+    \frac{\lambda}{2\pi} = j = \frac{j_1}{2^1} + \frac{j_2}{2^2} + \cdots + \frac{j_k}{2^k} + \cdots
+\end{eqnarray}
+$j_k$は$0$または$1$をとる古典ビットである。$\lambda$は$e^{i\lambda}$の形のみで出てくるので、$0 \leq \lambda < 2\pi$ として一般性を失わない。この2進数を、通常の小数の表記にならって、
+\begin{eqnarray}
+    \lambda = (2\pi) 0.j_1j_2\cdots j_k \cdots \label{eq: binary digits}
+\end{eqnarray}
+と書ける。
+
+% アダマールテストでは制御ユニタリ演算として$\Lambda (U)$を用いたが、今回はそれを変えた$\Lambda (U^{2^{k-1}})$とする。ユニタリ演算$U$の固有ベクトル$\ket{\psi}$とすると、制御ユニタリ演算を作用させた後の状態は、
+% \begin{eqnarray}
+%     \frac{1}{\sqrt{2}} \left( \ket{0} + e^{i 2^{k-1} \lambda} \ket{1} \right) \otimes \ket{\psi}
+%  \end{eqnarray}
+%  となる。2進展開を使うと、
+%  \begin{eqnarray}
+%     2^{k-1} \lambda = 2^{k-1} 0. j_1 j_2 \cdots j_r = (2\pi) j_1 j_2 \cdots j_k . j_{k+1}\cdots j_n
+%  \end{eqnarray}
+%  $e^{i(2\pi)j_1\cdots j_k} = 1$より、
+%  \begin{eqnarray}
+%     \frac{1}{\sqrt{2}}\left( \ket{0} + e^{i(2\pi)0.j_{k+1}\cdots j_n}\ket{1} \right) \otimes \ket{\psi}
+%  \end{eqnarray}
+% となる。
+
+\subsection{位相推定アルゴリズムの流れ}
+
+量子位相推定は以下のような流れで行う。初期化された$n$個のqビットと入力状態$\ket{\psi}$を用いてユニタリー演算$U$の固有値の位相$\lambda$を求める。
+\begin{enumerate}
+    \item $\ket{0}$に初期化された$n$個の補助量子ビットのそれぞれに、アダマールテストと同様、アダマールゲートを作用させる。
+    \item 再度、$n$個の補助量子ビットによってコントロールされた制御ユニタリー演算を固有ベクトル$\ket{\psi}$に作用させる。ただし、$k$番目($k = 1, \cdots , n$)の補助量子ビットには制御$U^{2^{k-1}}$演算をする。
+    \item $n$個の補助量子ビットに逆フーリエ変換(図\ref{fig:PEA}の$QFT^{\dagger}$)を作用させる。
+    \item 最後に、補助量子ビットの測定を行えば、$100\%$の確率で$j_1, j_2\cdots ,j_n$が得られ、$U$の固有値の位相$\lambda$が求められる。
+\end{enumerate}
+上記のことを量子回路で表したのが図\ref{fig:PEA}である。
 \begin{figure}
-\centering
-\includegraphics[width=70mm]{figures/Sample.png}
-\caption{ここにキャプションを挿入します}
-\label{fig:model}
+    \begin{center}
+    \includegraphics[width = 150mm]{figures/PEA.png}
+    \caption{量子位相推定の量子回路}
+    \label{fig:PEA}
+    \end{center}
 \end{figure}
 
-Cloud LaTeXでは，作成されるPDFそのままのレイアウトで表示するPDFビューモードがあり，コンパイル画面を確認しながら文書を作成することができます（図\ref{fig:model}）
-日本語では， \pLaTeX / \upLaTeX / \LuaLaTeX でのコンパイルが可能です．
-また，日本語や英語文書作成だけでなく，中国語・ハングルに対応した \XeLaTeX のコンパイルも可能です．
-ぜひ使ってみてください．
+\section{量子位相推定}
+\subsection{入力が固有ベクトルの場合}
+入力が固有ベクトル$\ket{\psi}$である場合を考える。
+また、ここでは位相$\lambda$が$n$桁まで2進数展開できる特殊な$\lambda$であるとする。すると、式（\ref{eq: binary digits}）より、位相$\lambda$の2進数展開は、
+\begin{eqnarray}
+    \lambda = (2\pi)0.j_1 j_2 \cdots j_n
+\end{eqnarray}
+となる。
+
+まず初めに、$n$個の$\ket{0}$に初期化された補助量子ビットのそれぞれに、アダマールゲートと制御ユニタリー演算$\Lambda (U^{2^{k-1}})$を作用させる。$U\ket{\psi} = e^{i2\pi \lambda} \ket{\psi}$なので、$k$番目の補助量子ビットには$e^{i 2^{k-1} \lambda}$の位相が獲得される。
+
+$k = 1$の場合、アダマールテストと同様に、
+\begin{eqnarray}
+    \frac{1}{\sqrt{2}}\left( \ket{0} + e^{i(2\pi)0.j_{1}j_{2}\cdots j_n}\ket{1} \right)
+\end{eqnarray}
+となり、$k = 2$の場合は、
+\begin{eqnarray}
+    \frac{1}{\sqrt{2}}\left( \ket{0} + e^{i(2\pi)2^1 \cdot 0.j_{1}j_{2}\cdots j_n}\ket{1} \right) \\
+    = \frac{1}{\sqrt{2}}\left( \ket{0} + e^{i(2\pi)j_1.j_{2}j_{3}\cdots j_n}\ket{1} \right)\\
+    = \frac{1}{\sqrt{2}}\left( \ket{0} + e^{i(2\pi)0.j_{2}j_{3}\cdots j_n}\ket{1} \right) \label{eq: 8}
+\end{eqnarray}
+となる。これを$n$回繰り返して、
+\begin{eqnarray}
+    \left( \frac{\ket{0} + e^{i(2\pi) 0. j_1 \cdots j_n} \ket{1}}{\sqrt{2}} \right) \otimes \left( \frac{\ket{0} + e^{i(2\pi) 0. j_2 \cdots j_n} \ket{1}}{\sqrt{2}} \right) \otimes \cdots \otimes \left( \frac{\ket{0} + e^{i(2\pi) 0.j_n} \ket{1}}{\sqrt{2}} \right) \otimes \ket{\psi}
+    \label{eq:9}
+\end{eqnarray}
+という状態が得られる。つまり、固有値の位相を2進小数表示で1ビットずつシフトしたのもが式(\ref{eq:9})のように各補助量子ビットの位相に格納される。
+
+式(\ref{eq:9})の形は、量子フーリエ変換の結果の式と同じ形をしている。そのため、次は逆量子フーリエ変換($QFT^{\dagger}$)を補助量子ビットに作用させると、
+\begin{eqnarray}
+    \left( \frac{\ket{0} + e^{i(2\pi) 0. j_1 \cdots j_n} \ket{1}}{\sqrt{2}} \right) \otimes \left( \frac{\ket{0} + e^{i(2\pi) 0. j_2 \cdots j_n} \ket{1}}{\sqrt{2}} \right) \otimes \cdots \otimes \left( \frac{\ket{0} + e^{i(2\pi) 0.j_n} \ket{1}}{\sqrt{2}} \right) \rightarrow \ket{j_1 \cdots j_n}
+\end{eqnarray}
+となる。
+
+この段階で補助量子ビットの測定を行えば、$100\%$の確率で、$j_1, j_2, \cdots , j_n$が得られ、$U$の固有値の位相$\lambda$が求められる。
+
+測定を除いた回路全体を位相推定のためのユニタリー演算$W$とすると、
+\begin{eqnarray}
+    W\ket{0 \cdots 0}\ket{\psi} = \ket{j_1 \cdots j_n}\ket{\psi}
+    \label{eq: W}
+\end{eqnarray}
+となる$W$を構成できた。
+
+まとめると、位相推定アルゴリズムによって、対応する固有ベクトル$\ket{\psi}$で与えられるユニタリーオペレータ$U$の固有値の位相$\lambda$を推定できる。この手続きの核心を成す重要な点は次の変換を実行する逆量子フーリエ変換にある。式(\ref{eq: 8})より、
+\begin{eqnarray}
+    \left( \frac{\ket{0} + e^{i(2\pi) 0. j_1 \cdots j_n} \ket{1}}{\sqrt{2}} \right) \otimes \cdots \otimes \left( \frac{\ket{0} + e^{i(2\pi) 0.j_n} \ket{1}}{\sqrt{2}} \right) = \frac{1}{2^{n/2}} \sum_{k = 0} ^{2^n - 1} e^{2\pi i j k}\ket{k} \label{eq: Leo}
+\end{eqnarray}
+とすると、
+\begin{eqnarray}
+    \frac{1}{2^{n/2}} \sum_{k = 0} ^{2^n - 1} e^{2\pi i j k}\ket{k}\ket{\psi} \rightarrow \ket{\tilde{j}}\ket{\psi} \label{eq: Lion}
+    \label{eq: Quantum Computation and Quantum Information(5.22)}
+\end{eqnarray}
+% ここで、$j = 0.j_1 j_2 \cdots j_n$ 、
+ここで、$\ket{\tilde{j}}$は測定さえれたとき$j$の良い測定量を与える状態を表す。
+
+
+
+\subsection{$\lambda$が$n$桁の2進数で表せられない場合}
+$\lambda$が2進数で表せない場合について、位相推定アルゴリズムがどのような状態を返すのか考える。
+式(\ref{eq: Quantum Computation and Quantum Information(5.22)})より、$n$ビットでは高い確率で$\lambda$のかなり良い近似を与えることを明らかにした。
+$\lambda$が2進数で表記できない場合、つまり$\lambda$が2進数で表記する際に$n$桁より大きくなる場合、最後の測定の際に若干のエラーが生じる。
+このエラーは測定を繰り返せば克服することができる。
+
+
+では、高い確率で$\lambda$を推定するにはどうすれば良いか考える。$b$を$0$から$2^n - 1$の範囲の整数として、$b / 2^t = 0.b_1 b_2 \cdots b_n$が、$j$より小さく$j$の最良の$n$ビット近似になるように選ぶとする。
+つまり、$j$と$b/2^n$の差$\delta \equiv j - b/2^n$は、$0 \leq \delta \leq 2^{-t} $を満たす。
+
+逆量子フーリエ変換を式(\ref{eq: Leo})に適用すると、
+\begin{eqnarray}
+    \frac{1}{2^n}\sum_{k, l = 0}^{2^n - 1} e^{\frac{- 2\pi i k l}{2^n}} e^{2 \pi i j k} \ket{l} 
+\end{eqnarray}
+$\alpha_l$を$\ket{(b + l)(mod 2^t)}$の振幅とすると、
+\begin{eqnarray}
+    \alpha_l \equiv \frac{1}{2^t}\sum_{k = 0}^{2^t - 1}\left( e^{2\pi i (j - (b + l)/2^t)} \right)
+\end{eqnarray}
+これは幾何級数なので
+% 幾何級数 = 等比級数
+\begin{eqnarray}
+    \alpha_l &=& \frac{1}{2^n}\left(\frac{1 - e^{2\pi i (2^n j - (b + l))}}{1 - e^{2 \pi i (\delta - l / 2^n)}}\right) \\
+    &=& \frac{1}{2^n}\left( \frac{1 - e^{2\pi i (2^n \delta - l)}}{1 - e^{2 \pi i (\delta - l / 2^t)}} \right)
+\end{eqnarray}
+最終測定結果を$m$とする。我々の目的が$|m - b| > e$となる値$m$を得る確率の限界を与えることである。ここで、$e$は所望の許容誤差を特徴づける正の整数である。そのような$m$を観測する確率は
+\begin{eqnarray}
+    p(|m - b| > e) = \sum_{-2^{t-1} < l \leq -(e + 1)} |\alpha_l|^2 + \sum_{e + 1 \leq l \leq 2^{t - 1}} |\alpha_l|^2 \label{eq: 28}
+\end{eqnarray}
+で与えられる。しかし、任意の実数$\theta$に対して$|1 - e^{i\theta}| \leq 2$なので、
+\begin{eqnarray}
+    |\alpha_l| \leq \frac{2}{2^t |1 - e^{2\pi i (\delta - l / 2^t)}|} 
+\end{eqnarray}
+$- \pi \leq \theta \leq \pi$ならば常に$|1 - \exp(i\theta)| \geq 2 |\theta|/\pi$である。しかし、$-2^{t-1} < l \leq 2^{t - 1}$のときに$- \pi \leq 2\pi (\delta - l/2^t) \leq \pi$となる。したがって、
+\begin{eqnarray}
+    |\alpha_l| \leq \frac{1}{2^{n + 1}(\delta - l/2^n)} \label{eq: 29}
+\end{eqnarray}
+式(\ref{eq: 28})と式(\ref{eq: 29})を組み合わせると、
+\begin{eqnarray}
+    p(|m - b| > e) \leq \frac{1}{4}\left[ \sum_{l = -2^{n - 1} + 1}^{-(e + 1)} \frac{1}{(l - 2^n \delta)^2} \sum_{l = e + 1}^{2^t - 1} \frac{1}{(l - 2^n \delta)^2} \right]
+\end{eqnarray}
+となる。$0 \leq \delta \leq 2^{-n}$より、$0 \leq 2^{-n} \delta \leq 1$から、
+\begin{eqnarray}
+    p(|m - b| > e)  &\leq& \frac{1}{4} \left[ \sum_{l = -2^{n-1}+1} ^{-(e+1)} \frac{1}{l^2} + \sum_{l = e + 1} ^{2^n - 1} \frac{1}{(l - 2^n \delta)^2} \right] \\ 
+                    &\leq& \frac{1}{2} \sum _{l = e} ^{2^{n-1}-1} \frac{1}{l^2} \\
+                    &\leq& \frac{1}{2} \int_{e-1}^{2^{n-1}-1}  \,dl  \frac{1}{l^2} \\
+                    &=& \frac{1}{2(e - 1)} \label{eq: Quantum Computation and Quantum Information(5.34)}
+\end{eqnarray}
+精度$2^{-t}$でjを近似する。つまり、$e = 2^{n - t} - 1$と選ぶ。
+位相推定アルゴリズムで$n = t + p$個のqビットを使用すると、式(\ref{eq: Quantum Computation and Quantum Information(5.34)})から、この精度で正し近似を得る確率は少なくとも
+$1 - 1/2(2^p - 2)$であることがわかる。
+したがって、$t$ビット精度で少なくとも$1 - \epsilon$の成功確率で正確に$j$をえるには、
+\begin{eqnarray}
+    n = t + \left\lceil \log \left( 2 + \frac{1}{2\epsilon} \right) \right\rceil 
+\end{eqnarray}
+
+
+
+\subsection{入力が固有ベクトルではない場合}
+先ほどの2.1では、入力が固有ベクトルである場合を考えた。そのため、次は一般的な量子状態$\ket{\psi}$が与えられた場合を考える。
+$U$の固有ベクトル$\ket{eigen_l}$とし、対応する固有値を$e^{i \lambda_l}$とする。ある一般的な量子状態$\ket{\psi}$が与えられた場合、これは必ず固有ベクトルで展開することができるので、
+\begin{eqnarray}
+    \ket{\psi} = \sum_l c_l \ket{eigen_l}
+\end{eqnarray}
+となる。$c_l$は複素数の集合である。
+%c_lは展開係数？
+
+このときの位相推定アルゴリズムは、$n$個の補助量子ビットを用いて、入力状態を
+\begin{eqnarray}
+    \ket{00 \cdots 0}\ket{\psi} \rightarrow \sum_l c_l \ket{\lambda_l}\ket{eigen_l}
+\end{eqnarray}
+のように変換するアルゴリズムのことである。
+ここで、$\lambda_l$の2進数の表示が$n$桁で終わると仮定して、$\ket{\lambda_l}$は固有値の位相$\lambda_l$の2進数表示、$lambda_l = (2\pi) 0.j^{(l)}_1 \cdots j^{(l)}_n$に対応する量子状態$\ket{j^{(l)}_1 \cdots j^{(l)}_n}$である。
+つまり、位相推定アルゴリズムは、$\ket{\psi}$の重ね合わせにあるそれぞれの固有ベクトルに対応した固有値を$n$個数の補助量子ビットへと取り出すアルゴリズムである。
+この状態に対して補助量子ビットの測定をすると、確率、
+\begin{eqnarray}
+    p_l = |c_l|^2
+\end{eqnarray}
+で、どれか１つの固有ベクトル$\ket{eigen_l}$とその固有値$\lambda_l$が乱択される。
+
+
+% 固有ベクトル$\ket{eigen_l}$は固有値$e^{2\pi i j_l}$を持つとする。
+% 位相推定アルゴリズムを走らせると、その結果は、
+% \begin{eqnarray}
+%     \sum _l c_l \ket{\tilde{j_l}}\ket{eigen_l}
+% \end{eqnarray}
+% に近い出力が与えられる。ここで、$\tilde{j_l}$は位相$j_l$のかなり良い近似である。
+
+% これを用いて、式(\ref{eq: W})より、$n$個の補助量子ビットを用いて、
+% \begin{eqnarray}
+%     W \ket{0 \cdots 0} \ket{\psi} = W \ket{0 \cdots 0} \left( \sum_l c_l \ket{eigen_l} \right) = \sum_l c_l \ket{\lambda_l} \ket{eigen_l}
+% \end{eqnarray}
+% となる。ここで、$\ket{\lambda_l}$は固有値の位相$\lambda_l$の2進小数表示$\lambda_l = (2\pi)0.j^{(l)} _1 \cdots j^{(l)} _n$に対応する量子状態$\ket{j^{(l)} _1 \cdots j^{(l)} _n}$である。
+
+% つまり、位相推定アルゴリズムは、$\ket{\psi}$の重ね合わせの中にあるそれぞれの固有ベクトルに対応した固有値を$n$個の補助量子ビットへと取り出すアルゴリズムとなっている。
+
+% この状態に対し、補助量子ビットの測定をすると、確率
+% \begin{eqnarray}
+%     p_l = |c_l|^2
+% \end{eqnarray}
+% で、どれか１つの固有ベクトル$\ket{eigen_l}$と固有値$\lambda_l$がランダムで決まり、最終的に$j^{(l)} _1 \cdots j^{(l)} _n$と$\ket{eigen_l}$が出力される。
+
+
 \end{document}
